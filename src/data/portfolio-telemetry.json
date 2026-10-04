@@ -1,0 +1,1069 @@
+{
+  "generatedAt": "2024-10-04T00:00:00Z",
+  "repositories": [
+    {
+      "name": "portfolio",
+      "description": "Main portfolio website showcasing all nesxtep-software projects",
+      "primaryLanguage": "TypeScript",
+      "topics": ["production"],
+      "pushedAt": "2024-10-01T14:30:00Z",
+      "stargazerCount": 12,
+      "openIssues": 3,
+      "closedIssues": 45,
+      "milestone": {
+        "title": "v2.0 Release",
+        "dueOn": "2024-12-31",
+        "openIssues": 3,
+        "closedIssues": 27
+      },
+      "latestRelease": {
+        "name": "v1.5.0",
+        "tagName": "v1.5.0",
+        "publishedAt": "2024-09-15T10:00:00Z"
+      },
+      "hasPackageJson": true,
+      "version": "1.5.0",
+      "hasDockerfile": true,
+      "hasDockerCompose": true,
+      "hasReadme": true,
+      "maturityScore": 95,
+      "maturityLevel": "Level 5: Production"
+    },
+    {
+      "name": "corporate-page",
+      "description": "Official company website with product information and contact",
+      "primaryLanguage": "TypeScript",
+      "topics": ["production"],
+      "pushedAt": "2024-09-28T09:15:00Z",
+      "stargazerCount": 8,
+      "openIssues": 2,
+      "closedIssues": 38,
+      "milestone": {
+        "title": "Content Migration",
+        "dueOn": "2024-11-15",
+        "openIssues": 2,
+        "closedIssues": 18
+      },
+      "latestRelease": {
+        "name": "v2.1.0",
+        "tagName": "v2.1.0",
+        "publishedAt": "2024-09-10T08:00:00Z"
+      },
+      "hasPackageJson": true,
+      "version": "2.1.0",
+      "hasDockerfile": true,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 92,
+      "maturityLevel": "Level 5: Production"
+    },
+    {
+      "name": "auth-service",
+      "description": "Centralized authentication and authorization microservice",
+      "primaryLanguage": "TypeScript",
+      "topics": [],
+      "pushedAt": "2024-09-25T16:45:00Z",
+      "stargazerCount": 15,
+      "openIssues": 7,
+      "closedIssues": 52,
+      "milestone": {
+        "title": "OAuth 2.0 Support",
+        "dueOn": "2024-10-30",
+        "openIssues": 7,
+        "closedIssues": 13
+      },
+      "latestRelease": {
+        "name": "v0.9.0",
+        "tagName": "v0.9.0",
+        "publishedAt": "2024-09-05T11:30:00Z"
+      },
+      "hasPackageJson": true,
+      "version": "0.9.0",
+      "hasDockerfile": true,
+      "hasDockerCompose": true,
+      "hasReadme": true,
+      "maturityScore": 88,
+      "maturityLevel": "Level 4: Staging / Beta"
+    },
+    {
+      "name": "payment-gateway",
+      "description": "Payment processing integration with multiple providers",
+      "primaryLanguage": "TypeScript",
+      "topics": [],
+      "pushedAt": "2024-09-20T11:20:00Z",
+      "stargazerCount": 9,
+      "openIssues": 12,
+      "closedIssues": 35,
+      "milestone": {
+        "title": "Stripe Integration",
+        "dueOn": "2024-11-01",
+        "openIssues": 12,
+        "closedIssues": 8
+      },
+      "latestRelease": {
+        "name": "v0.5.0",
+        "tagName": "v0.5.0",
+        "publishedAt": "2024-08-20T14:00:00Z"
+      },
+      "hasPackageJson": true,
+      "version": "0.5.0",
+      "hasDockerfile": true,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 78,
+      "maturityLevel": "Level 4: Staging / Beta"
+    },
+    {
+      "name": "data-pipeline",
+      "description": "ETL pipeline for processing and transforming data",
+      "primaryLanguage": "Python",
+      "topics": [],
+      "pushedAt": "2024-09-18T08:30:00Z",
+      "stargazerCount": 6,
+      "openIssues": 15,
+      "closedIssues": 28,
+      "milestone": {
+        "title": "Real-time Processing",
+        "dueOn": "2024-12-15",
+        "openIssues": 15,
+        "closedIssues": 5
+      },
+      "latestRelease": {
+        "name": "v0.3.0",
+        "tagName": "v0.3.0",
+        "publishedAt": "2024-08-15T09:00:00Z"
+      },
+      "hasPackageJson": false,
+      "version": null,
+      "hasDockerfile": true,
+      "hasDockerCompose": true,
+      "hasReadme": true,
+      "maturityScore": 75,
+      "maturityLevel": "Level 4: Staging / Beta"
+    },
+    {
+      "name": "notification-service",
+      "description": "Multi-channel notification service (email, SMS, push)",
+      "primaryLanguage": "Go",
+      "topics": [],
+      "pushedAt": "2024-09-15T13:00:00Z",
+      "stargazerCount": 11,
+      "openIssues": 18,
+      "closedIssues": 32,
+      "milestone": {
+        "title": "Webhook Support",
+        "dueOn": "2024-10-20",
+        "openIssues": 18,
+        "closedIssues": 7
+      },
+      "latestRelease": {
+        "name": "v0.4.0",
+        "tagName": "v0.4.0",
+        "publishedAt": "2024-08-10T16:00:00Z"
+      },
+      "hasPackageJson": false,
+      "version": null,
+      "hasDockerfile": true,
+      "hasDockerCompose": true,
+      "hasReadme": true,
+      "maturityScore": 72,
+      "maturityLevel": "Level 4: Staging / Beta"
+    },
+    {
+      "name": "api-gateway",
+      "description": "API gateway with rate limiting and request routing",
+      "primaryLanguage": "TypeScript",
+      "topics": [],
+      "pushedAt": "2024-09-12T10:45:00Z",
+      "stargazerCount": 14,
+      "openIssues": 8,
+      "closedIssues": 41,
+      "milestone": {
+        "title": "GraphQL Support",
+        "dueOn": "2024-11-20",
+        "openIssues": 8,
+        "closedIssues": 12
+      },
+      "latestRelease": {
+        "name": "v0.7.0",
+        "tagName": "v0.7.0",
+        "publishedAt": "2024-08-05T12:00:00Z"
+      },
+      "hasPackageJson": true,
+      "version": "0.7.0",
+      "hasDockerfile": true,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 85,
+      "maturityLevel": "Level 4: Staging / Beta"
+    },
+    {
+      "name": "user-service",
+      "description": "User profile and preferences management service",
+      "primaryLanguage": "C#",
+      "topics": [],
+      "pushedAt": "2024-09-10T15:30:00Z",
+      "stargazerCount": 7,
+      "openIssues": 14,
+      "closedIssues": 36,
+      "milestone": {
+        "title": "Profile Customization",
+        "dueOn": "2024-10-25",
+        "openIssues": 14,
+        "closedIssues": 11
+      },
+      "latestRelease": {
+        "name": "v0.6.0",
+        "tagName": "v0.6.0",
+        "publishedAt": "2024-08-01T10:00:00Z"
+      },
+      "hasPackageJson": false,
+      "version": null,
+      "hasDockerfile": true,
+      "hasDockerCompose": true,
+      "hasReadme": true,
+      "maturityScore": 76,
+      "maturityLevel": "Level 4: Staging / Beta"
+    },
+    {
+      "name": "analytics-dashboard",
+      "description": "Real-time analytics and reporting dashboard",
+      "primaryLanguage": "TypeScript",
+      "topics": [],
+      "pushedAt": "2024-09-08T09:00:00Z",
+      "stargazerCount": 10,
+      "openIssues": 20,
+      "closedIssues": 25,
+      "milestone": {
+        "title": "Custom Reports",
+        "dueOn": "2024-12-01",
+        "openIssues": 20,
+        "closedIssues": 5
+      },
+      "latestRelease": {
+        "name": "v0.4.0",
+        "tagName": "v0.4.0",
+        "publishedAt": "2024-07-28T14:00:00Z"
+      },
+      "hasPackageJson": true,
+      "version": "0.4.0",
+      "hasDockerfile": true,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 68,
+      "maturityLevel": "Level 3: Core MVP"
+    },
+    {
+      "name": "file-storage",
+      "description": "Distributed file storage with CDN integration",
+      "primaryLanguage": "Go",
+      "topics": [],
+      "pushedAt": "2024-09-05T11:15:00Z",
+      "stargazerCount": 8,
+      "openIssues": 16,
+      "closedIssues": 22,
+      "milestone": {
+        "title": "Multi-region Support",
+        "dueOn": "2024-11-10",
+        "openIssues": 16,
+        "closedIssues": 4
+      },
+      "latestRelease": {
+        "name": "v0.3.0",
+        "tagName": "v0.3.0",
+        "publishedAt": "2024-07-25T09:00:00Z"
+      },
+      "hasPackageJson": false,
+      "version": null,
+      "hasDockerfile": true,
+      "hasDockerCompose": true,
+      "hasReadme": true,
+      "maturityScore": 65,
+      "maturityLevel": "Level 3: Core MVP"
+    },
+    {
+      "name": "task-scheduler",
+      "description": "Distributed task scheduling and job execution",
+      "primaryLanguage": "Python",
+      "topics": [],
+      "pushedAt": "2024-09-02T14:00:00Z",
+      "stargazerCount": 5,
+      "openIssues": 22,
+      "closedIssues": 18,
+      "milestone": {
+        "title": "Retry Logic",
+        "dueOn": "2024-10-15",
+        "openIssues": 22,
+        "closedIssues": 3
+      },
+      "latestRelease": {
+        "name": "v0.2.0",
+        "tagName": "v0.2.0",
+        "publishedAt": "2024-07-20T11:00:00Z"
+      },
+      "hasPackageJson": false,
+      "version": null,
+      "hasDockerfile": true,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 62,
+      "maturityLevel": "Level 3: Core MVP"
+    },
+    {
+      "name": "cache-service",
+      "description": "Distributed caching layer with Redis integration",
+      "primaryLanguage": "Go",
+      "topics": [],
+      "pushedAt": "2024-08-30T10:30:00Z",
+      "stargazerCount": 9,
+      "openIssues": 11,
+      "closedIssues": 29,
+      "milestone": {
+        "title": "Cache Invalidation",
+        "dueOn": "2024-10-10",
+        "openIssues": 11,
+        "closedIssues": 9
+      },
+      "latestRelease": {
+        "name": "v0.3.0",
+        "tagName": "v0.3.0",
+        "publishedAt": "2024-07-18T13:00:00Z"
+      },
+      "hasPackageJson": false,
+      "version": null,
+      "hasDockerfile": true,
+      "hasDockerCompose": true,
+      "hasReadme": true,
+      "maturityScore": 70,
+      "maturityLevel": "Level 3: Core MVP"
+    },
+    {
+      "name": "logging-service",
+      "description": "Centralized logging and log aggregation service",
+      "primaryLanguage": "TypeScript",
+      "topics": [],
+      "pushedAt": "2024-08-28T08:45:00Z",
+      "stargazerCount": 6,
+      "openIssues": 19,
+      "closedIssues": 21,
+      "milestone": {
+        "title": "Log Parsing",
+        "dueOn": "2024-10-05",
+        "openIssues": 19,
+        "closedIssues": 6
+      },
+      "latestRelease": {
+        "name": "v0.2.0",
+        "tagName": "v0.2.0",
+        "publishedAt": "2024-07-15T10:00:00Z"
+      },
+      "hasPackageJson": true,
+      "version": "0.2.0",
+      "hasDockerfile": true,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 66,
+      "maturityLevel": "Level 3: Core MVP"
+    },
+    {
+      "name": "search-engine",
+      "description": "Full-text search with Elasticsearch integration",
+      "primaryLanguage": "Python",
+      "topics": [],
+      "pushedAt": "2024-08-25T12:00:00Z",
+      "stargazerCount": 12,
+      "openIssues": 24,
+      "closedIssues": 16,
+      "milestone": {
+        "title": "Faceted Search",
+        "dueOn": "2024-11-05",
+        "openIssues": 24,
+        "closedIssues": 2
+      },
+      "latestRelease": {
+        "name": "v0.1.0",
+        "tagName": "v0.1.0",
+        "publishedAt": "2024-07-12T15:00:00Z"
+      },
+      "hasPackageJson": false,
+      "version": null,
+      "hasDockerfile": true,
+      "hasDockerCompose": true,
+      "hasReadme": true,
+      "maturityScore": 58,
+      "maturityLevel": "Level 3: Core MVP"
+    },
+    {
+      "name": "config-service",
+      "description": "Dynamic configuration management service",
+      "primaryLanguage": "Java",
+      "topics": [],
+      "pushedAt": "2024-08-22T09:30:00Z",
+      "stargazerCount": 4,
+      "openIssues": 17,
+      "closedIssues": 13,
+      "milestone": {
+        "title": "Version Control",
+        "dueOn": "2024-10-01",
+        "openIssues": 17,
+        "closedIssues": 3
+      },
+      "latestRelease": {
+        "name": "v0.1.0",
+        "tagName": "v0.1.0",
+        "publishedAt": "2024-07-10T11:00:00Z"
+      },
+      "hasPackageJson": false,
+      "version": null,
+      "hasDockerfile": true,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 55,
+      "maturityLevel": "Level 3: Core MVP"
+    },
+    {
+      "name": "websocket-service",
+      "description": "Real-time WebSocket communication service",
+      "primaryLanguage": "TypeScript",
+      "topics": [],
+      "pushedAt": "2024-08-20T14:15:00Z",
+      "stargazerCount": 8,
+      "openIssues": 21,
+      "closedIssues": 14,
+      "milestone": {
+        "title": "Room Management",
+        "dueOn": "2024-09-30",
+        "openIssues": 21,
+        "closedIssues": 4
+      },
+      "latestRelease": {
+        "name": "v0.1.0",
+        "tagName": "v0.1.0",
+        "publishedAt": "2024-07-08T09:00:00Z"
+      },
+      "hasPackageJson": true,
+      "version": "0.1.0",
+      "hasDockerfile": true,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 56,
+      "maturityLevel": "Level 3: Core MVP"
+    },
+    {
+      "name": "email-service",
+      "description": "Transactional email service with templates",
+      "primaryLanguage": "TypeScript",
+      "topics": [],
+      "pushedAt": "2024-08-18T10:00:00Z",
+      "stargazerCount": 7,
+      "openIssues": 18,
+      "closedIssues": 12,
+      "milestone": {
+        "title": "Template Editor",
+        "dueOn": "2024-09-25",
+        "openIssues": 18,
+        "closedIssues": 2
+      },
+      "latestRelease": {
+        "name": "v0.1.0",
+        "tagName": "v0.1.0",
+        "publishedAt": "2024-07-05T13:00:00Z"
+      },
+      "hasPackageJson": true,
+      "version": "0.1.0",
+      "hasDockerfile": true,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 54,
+      "maturityLevel": "Level 3: Core MVP"
+    },
+    {
+      "name": "monitoring-service",
+      "description": "System monitoring and alerting service",
+      "primaryLanguage": "Go",
+      "topics": [],
+      "pushedAt": "2024-08-15T11:45:00Z",
+      "stargazerCount": 10,
+      "openIssues": 23,
+      "closedIssues": 11,
+      "milestone": {
+        "title": "Alert Rules",
+        "dueOn": "2024-09-20",
+        "openIssues": 23,
+        "closedIssues": 2
+      },
+      "latestRelease": {
+        "name": "v0.1.0",
+        "tagName": "v0.1.0",
+        "publishedAt": "2024-07-03T10:00:00Z"
+      },
+      "hasPackageJson": false,
+      "version": null,
+      "hasDockerfile": true,
+      "hasDockerCompose": true,
+      "hasReadme": true,
+      "maturityScore": 52,
+      "maturityLevel": "Level 3: Core MVP"
+    },
+    {
+      "name": "rate-limiter",
+      "description": "Distributed rate limiting service",
+      "primaryLanguage": "Rust",
+      "topics": [],
+      "pushedAt": "2024-08-12T13:30:00Z",
+      "stargazerCount": 13,
+      "openIssues": 15,
+      "closedIssues": 15,
+      "milestone": {
+        "title": "Sliding Window",
+        "dueOn": "2024-09-15",
+        "openIssues": 15,
+        "closedIssues": 5
+      },
+      "latestRelease": {
+        "name": "v0.1.0",
+        "tagName": "v0.1.0",
+        "publishedAt": "2024-07-01T12:00:00Z"
+      },
+      "hasPackageJson": false,
+      "version": null,
+      "hasDockerfile": true,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 58,
+      "maturityLevel": "Level 3: Core MVP"
+    },
+    {
+      "name": "cli-tool",
+      "description": "Command-line interface for developer workflows",
+      "primaryLanguage": "TypeScript",
+      "topics": [],
+      "pushedAt": "2024-08-10T09:00:00Z",
+      "stargazerCount": 6,
+      "openIssues": 19,
+      "closedIssues": 8,
+      "milestone": {
+        "title": "Plugin System",
+        "dueOn": "2024-09-10",
+        "openIssues": 19,
+        "closedIssues": 1
+      },
+      "latestRelease": {
+        "name": "v0.1.0",
+        "tagName": "v0.1.0",
+        "publishedAt": "2024-06-28T14:00:00Z"
+      },
+      "hasPackageJson": true,
+      "version": "0.1.0",
+      "hasDockerfile": false,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 45,
+      "maturityLevel": "Level 2: Architecture"
+    },
+    {
+      "name": "api-client",
+      "description": "Type-safe API client library",
+      "primaryLanguage": "TypeScript",
+      "topics": [],
+      "pushedAt": "2024-08-08T11:15:00Z",
+      "stargazerCount": 9,
+      "openIssues": 16,
+      "closedIssues": 9,
+      "milestone": {
+        "title": "Retry Logic",
+        "dueOn": "2024-09-05",
+        "openIssues": 16,
+        "closedIssues": 4
+      },
+      "latestRelease": {
+        "name": "v0.1.0",
+        "tagName": "v0.1.0",
+        "publishedAt": "2024-06-25T10:00:00Z"
+      },
+      "hasPackageJson": true,
+      "version": "0.1.0",
+      "hasDockerfile": false,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 48,
+      "maturityLevel": "Level 2: Architecture"
+    },
+    {
+      "name": "testing-framework",
+      "description": "Custom testing framework and utilities",
+      "primaryLanguage": "TypeScript",
+      "topics": [],
+      "pushedAt": "2024-08-05T14:30:00Z",
+      "stargazerCount": 5,
+      "openIssues": 21,
+      "closedIssues": 6,
+      "milestone": {
+        "title": "Assertion Library",
+        "dueOn": "2024-09-01",
+        "openIssues": 21,
+        "closedIssues": 0
+      },
+      "latestRelease": {
+        "name": "v0.0.1",
+        "tagName": "v0.0.1",
+        "publishedAt": "2024-06-22T09:00:00Z"
+      },
+      "hasPackageJson": true,
+      "version": "0.0.1",
+      "hasDockerfile": false,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 40,
+      "maturityLevel": "Level 2: Architecture"
+    },
+    {
+      "name": "database-migrations",
+      "description": "Database migration and schema management tool",
+      "primaryLanguage": "TypeScript",
+      "topics": [],
+      "pushedAt": "2024-08-03T10:00:00Z",
+      "stargazerCount": 4,
+      "openIssues": 18,
+      "closedIssues": 7,
+      "milestone": {
+        "title": "Rollback Support",
+        "dueOn": "2024-08-28",
+        "openIssues": 18,
+        "closedIssues": 2
+      },
+      "latestRelease": {
+        "name": "v0.0.1",
+        "tagName": "v0.0.1",
+        "publishedAt": "2024-06-20T11:00:00Z"
+      },
+      "hasPackageJson": true,
+      "version": "0.0.1",
+      "hasDockerfile": false,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 38,
+      "maturityLevel": "Level 2: Architecture"
+    },
+    {
+      "name": "auth-library",
+      "description": "Authentication and authorization library",
+      "primaryLanguage": "TypeScript",
+      "topics": [],
+      "pushedAt": "2024-08-01T12:45:00Z",
+      "stargazerCount": 8,
+      "openIssues": 17,
+      "closedIssues": 8,
+      "milestone": {
+        "title": "JWT Support",
+        "dueOn": "2024-08-25",
+        "openIssues": 17,
+        "closedIssues": 3
+      },
+      "latestRelease": {
+        "name": "v0.0.1",
+        "tagName": "v0.0.1",
+        "publishedAt": "2024-06-18T13:00:00Z"
+      },
+      "hasPackageJson": true,
+      "version": "0.0.1",
+      "hasDockerfile": false,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 42,
+      "maturityLevel": "Level 2: Architecture"
+    },
+    {
+      "name": "validation-library",
+      "description": "Data validation and schema validation library",
+      "primaryLanguage": "TypeScript",
+      "topics": [],
+      "pushedAt": "2024-07-30T09:30:00Z",
+      "stargazerCount": 3,
+      "openIssues": 20,
+      "closedIssues": 5,
+      "milestone": {
+        "title": "Custom Validators",
+        "dueOn": "2024-08-22",
+        "openIssues": 20,
+        "closedIssues": 0
+      },
+      "latestRelease": {
+        "name": "v0.0.1",
+        "tagName": "v0.0.1",
+        "publishedAt": "2024-06-15T10:00:00Z"
+      },
+      "hasPackageJson": true,
+      "version": "0.0.1",
+      "hasDockerfile": false,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 35,
+      "maturityLevel": "Level 2: Architecture"
+    },
+    {
+      "name": "logging-library",
+      "description": "Structured logging library with multiple transports",
+      "primaryLanguage": "TypeScript",
+      "topics": [],
+      "pushedAt": "2024-07-28T11:00:00Z",
+      "stargazerCount": 5,
+      "openIssues": 14,
+      "closedIssues": 6,
+      "milestone": {
+        "title": "Log Rotation",
+        "dueOn": "2024-08-20",
+        "openIssues": 14,
+        "closedIssues": 1
+      },
+      "latestRelease": {
+        "name": "v0.0.1",
+        "tagName": "v0.0.1",
+        "publishedAt": "2024-06-12T12:00:00Z"
+      },
+      "hasPackageJson": true,
+      "version": "0.0.1",
+      "hasDockerfile": false,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 37,
+      "maturityLevel": "Level 2: Architecture"
+    },
+    {
+      "name": "event-bus",
+      "description": "Event-driven architecture and message bus",
+      "primaryLanguage": "TypeScript",
+      "topics": [],
+      "pushedAt": "2024-07-25T14:15:00Z",
+      "stargazerCount": 7,
+      "openIssues": 22,
+      "closedIssues": 4,
+      "milestone": {
+        "title": "Event Replay",
+        "dueOn": "2024-08-18",
+        "openIssues": 22,
+        "closedIssues": 0
+      },
+      "latestRelease": {
+        "name": "v0.0.1",
+        "tagName": "v0.0.1",
+        "publishedAt": "2024-06-10T09:00:00Z"
+      },
+      "hasPackageJson": true,
+      "version": "0.0.1",
+      "hasDockerfile": false,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 33,
+      "maturityLevel": "Level 2: Architecture"
+    },
+    {
+      "name": "orm-library",
+      "description": "Object-relational mapping library",
+      "primaryLanguage": "TypeScript",
+      "topics": [],
+      "pushedAt": "2024-07-22T10:30:00Z",
+      "stargazerCount": 6,
+      "openIssues": 19,
+      "closedIssues": 5,
+      "milestone": {
+        "title": "Query Builder",
+        "dueOn": "2024-08-15",
+        "openIssues": 19,
+        "closedIssues": 1
+      },
+      "latestRelease": {
+        "name": "v0.0.1",
+        "tagName": "v0.0.1",
+        "publishedAt": "2024-06-08T11:00:00Z"
+      },
+      "hasPackageJson": true,
+      "version": "0.0.1",
+      "hasDockerfile": false,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 36,
+      "maturityLevel": "Level 2: Architecture"
+    },
+    {
+      "name": "cache-library",
+      "description": "In-memory caching library with TTL support",
+      "primaryLanguage": "TypeScript",
+      "topics": [],
+      "pushedAt": "2024-07-20T13:00:00Z",
+      "stargazerCount": 4,
+      "openIssues": 16,
+      "closedIssues": 4,
+      "milestone": {
+        "title": "LRU Eviction",
+        "dueOn": "2024-08-12",
+        "openIssues": 16,
+        "closedIssues": 0
+      },
+      "latestRelease": {
+        "name": "v0.0.1",
+        "tagName": "v0.0.1",
+        "publishedAt": "2024-06-05T10:00:00Z"
+      },
+      "hasPackageJson": true,
+      "version": "0.0.1",
+      "hasDockerfile": false,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 34,
+      "maturityLevel": "Level 2: Architecture"
+    },
+    {
+      "name": "http-client",
+      "description": "HTTP client with interceptors and retry logic",
+      "primaryLanguage": "TypeScript",
+      "topics": [],
+      "pushedAt": "2024-07-18T09:45:00Z",
+      "stargazerCount": 5,
+      "openIssues": 18,
+      "closedIssues": 3,
+      "milestone": {
+        "title": "Request Cancellation",
+        "dueOn": "2024-08-10",
+        "openIssues": 18,
+        "closedIssues": 0
+      },
+      "latestRelease": {
+        "name": "v0.0.1",
+        "tagName": "v0.0.1",
+        "publishedAt": "2024-06-03T12:00:00Z"
+      },
+      "hasPackageJson": true,
+      "version": "0.0.1",
+      "hasDockerfile": false,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 32,
+      "maturityLevel": "Level 2: Architecture"
+    },
+    {
+      "name": "crypto-library",
+      "description": "Cryptographic utilities and hashing functions",
+      "primaryLanguage": "TypeScript",
+      "topics": [],
+      "pushedAt": "2024-07-15T11:30:00Z",
+      "stargazerCount": 8,
+      "openIssues": 15,
+      "closedIssues": 5,
+      "milestone": {
+        "title": "Key Management",
+        "dueOn": "2024-08-08",
+        "openIssues": 15,
+        "closedIssues": 1
+      },
+      "latestRelease": {
+        "name": "v0.0.1",
+        "tagName": "v0.0.1",
+        "publishedAt": "2024-06-01T09:00:00Z"
+      },
+      "hasPackageJson": true,
+      "version": "0.0.1",
+      "hasDockerfile": false,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 38,
+      "maturityLevel": "Level 2: Architecture"
+    },
+    {
+      "name": "scheduler-service",
+      "description": "Scheduled task execution service",
+      "primaryLanguage": "TypeScript",
+      "topics": [],
+      "pushedAt": "2024-07-12T14:00:00Z",
+      "stargazerCount": 3,
+      "openIssues": 25,
+      "closedIssues": 2,
+      "milestone": {
+        "title": "Cron Expressions",
+        "dueOn": "2024-08-05",
+        "openIssues": 25,
+        "closedIssues": 0
+      },
+      "latestRelease": {
+        "name": "v0.0.1",
+        "tagName": "v0.0.1",
+        "publishedAt": "2024-05-29T10:00:00Z"
+      },
+      "hasPackageJson": true,
+      "version": "0.0.1",
+      "hasDockerfile": false,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 28,
+      "maturityLevel": "Level 1: Concept & Spec"
+    },
+    {
+      "name": "workflow-engine",
+      "description": "Workflow orchestration and process automation",
+      "primaryLanguage": "TypeScript",
+      "topics": [],
+      "pushedAt": "2024-07-10T10:15:00Z",
+      "stargazerCount": 4,
+      "openIssues": 23,
+      "closedIssues": 2,
+      "milestone": {
+        "title": "Visual Editor",
+        "dueOn": "2024-08-02",
+        "openIssues": 23,
+        "closedIssues": 0
+      },
+      "latestRelease": {
+        "name": "v0.0.1",
+        "tagName": "v0.0.1",
+        "publishedAt": "2024-05-27T11:00:00Z"
+      },
+      "hasPackageJson": true,
+      "version": "0.0.1",
+      "hasDockerfile": false,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 25,
+      "maturityLevel": "Level 1: Concept & Spec"
+    },
+    {
+      "name": "message-queue",
+      "description": "Message queue and pub/sub system",
+      "primaryLanguage": "TypeScript",
+      "topics": [],
+      "pushedAt": "2024-07-08T12:30:00Z",
+      "stargazerCount": 5,
+      "openIssues": 24,
+      "closedIssues": 1,
+      "milestone": {
+        "title": "Message Ordering",
+        "dueOn": "2024-07-30",
+        "openIssues": 24,
+        "closedIssues": 0
+      },
+      "latestRelease": {
+        "name": "v0.0.1",
+        "tagName": "v0.0.1",
+        "publishedAt": "2024-05-25T09:00:00Z"
+      },
+      "hasPackageJson": true,
+      "version": "0.0.1",
+      "hasDockerfile": false,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 22,
+      "maturityLevel": "Level 1: Concept & Spec"
+    },
+    {
+      "name": "identity-provider",
+      "description": "Single sign-on and identity management",
+      "primaryLanguage": "TypeScript",
+      "topics": [],
+      "pushedAt": "2024-07-05T09:00:00Z",
+      "stargazerCount": 6,
+      "openIssues": 26,
+      "closedIssues": 1,
+      "milestone": {
+        "title": "SAML Support",
+        "dueOn": "2024-07-28",
+        "openIssues": 26,
+        "closedIssues": 0
+      },
+      "latestRelease": {
+        "name": "v0.0.1",
+        "tagName": "v0.0.1",
+        "publishedAt": "2024-05-22T10:00:00Z"
+      },
+      "hasPackageJson": true,
+      "version": "0.0.1",
+      "hasDockerfile": false,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 20,
+      "maturityLevel": "Level 1: Concept & Spec"
+    },
+    {
+      "name": "storage-client",
+      "description": "Multi-cloud storage abstraction layer",
+      "primaryLanguage": "TypeScript",
+      "topics": [],
+      "pushedAt": "2024-07-02T11:45:00Z",
+      "stargazerCount": 4,
+      "openIssues": 27,
+      "closedIssues": 0,
+      "milestone": {
+        "title": "Provider Support",
+        "dueOn": "2024-07-25",
+        "openIssues": 27,
+        "closedIssues": 0
+      },
+      "latestRelease": {
+        "name": "v0.0.1",
+        "tagName": "v0.0.1",
+        "publishedAt": "2024-05-20T11:00:00Z"
+      },
+      "hasPackageJson": true,
+      "version": "0.0.1",
+      "hasDockerfile": false,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 18,
+      "maturityLevel": "Level 1: Concept & Spec"
+    },
+    {
+      "name": "metrics-service",
+      "description": "Metrics collection and time-series database",
+      "primaryLanguage": "TypeScript",
+      "topics": [],
+      "pushedAt": "2024-06-30T13:15:00Z",
+      "stargazerCount": 5,
+      "openIssues": 28,
+      "closedIssues": 0,
+      "milestone": {
+        "title": "Data Retention",
+        "dueOn": "2024-07-22",
+        "openIssues": 28,
+        "closedIssues": 0
+      },
+      "latestRelease": {
+        "name": "v0.0.1",
+        "tagName": "v0.0.1",
+        "publishedAt": "2024-05-18T09:00:00Z"
+      },
+      "hasPackageJson": true,
+      "version": "0.0.1",
+      "hasDockerfile": false,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 15,
+      "maturityLevel": "Level 1: Concept & Spec"
+    },
+    {
+      "name": "audit-log",
+      "description": "Audit logging and compliance tracking",
+      "primaryLanguage": "TypeScript",
+      "topics": [],
+      "pushedAt": "2024-06-28T10:00:00Z",
+      "stargazerCount": 3,
+      "openIssues": 29,
+      "closedIssues": 0,
+      "milestone": {
+        "title": "Report Generation",
+        "dueOn": "2024-07-20",
+        "openIssues": 29,
+        "closedIssues": 0
+      },
+      "latestRelease": {
+        "name": "v0.0.1",
+        "tagName": "v0.0.1",
+        "publishedAt": "2024-05-15T10:00:00Z"
+      },
+      "hasPackageJson": true,
+      "version": "0.0.1",
+      "hasDockerfile": false,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 12,
+      "maturityLevel": "Level 1: Concept & Spec"
+    }
+  ]
+}

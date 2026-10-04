@@ -1,0 +1,31 @@
+{
+  "name": "vekra",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "ingest": "node scripts/ingest-github-telemetry.mjs"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/react": "^4.2.2",
+    "@astrojs/tailwind": "^5.1.4",
+    "@octokit/graphql": "^8.1.2",
+    "astro": "^4.16.18",
+    "chart.js": "^4.4.7",
+    "lucide-astro": "^0.468.0",
+    "react": "^18.3.1",
+    "react-chartjs-2": "^5.3.0",
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^3.4.17"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "typescript": "^5.7.3"
+  }
+}

@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro';
+import MetricCards from '../components/MetricCards.astro';
+import MaturityChart from '../components/MaturityChart.astro';
+import ActivityMatrix from '../components/ActivityMatrix.astro';
+import TechStackBreakdown from '../components/TechStackBreakdown.astro';
+import AppTable from '../components/AppTable.astro';
+---
+
+<Layout title="Dashboard">
+  <div class="mb-8">
+    <h2 class="text-3xl font-bold text-gray-900 mb-2">Portfolio Dashboard</h2>
+    <p class="text-gray-600">
+      Track developmental progress across all nesxtep-software repositories
+    </p>
+  </div>
+
+  <MetricCards />
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+    <MaturityChart />
+    <TechStackBreakdown />
+  </div>
+
+  <ActivityMatrix />
+
+  <h3 class="text-2xl font-bold text-gray-900 mb-4">Application Details</h3>
+  <AppTable />
+</Layout>
