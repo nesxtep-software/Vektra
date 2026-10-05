@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import type { MouseEvent } from 'react';
 
 interface AppTableClientProps {
   repos: any[];
@@ -9,6 +10,10 @@ export default function AppTableClient({ repos }: AppTableClientProps) {
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [sortBy, setSortBy] = useState('lastUpdated');
   const [selectedRepo, setSelectedRepo] = useState<any>(null);
+
+  const handleRowClick = (repo: any) => setSelectedRepo(repo);
+  const handleModalClose = () => setSelectedRepo(null);
+  const handleStopPropagation = (e: MouseEvent) => e.stopPropagation();
 
   const filteredAndSortedRepos = useMemo(() => {
     let filtered = repos;
@@ -131,7 +136,7 @@ export default function AppTableClient({ repos }: AppTableClientProps) {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {filteredAndSortedRepos.map((repo) => (
-              <tr key={repo.name} className="hover:bg-gray-50 cursor-pointer" onClick={() => setSelectedRepo(repo)}>
+              <tr key={repo.name} className="hover:bg-gray-50 cursor-pointer" onClick={() => handleRowClick(repo)}>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
                     <button className="text-sm font-medium text-gray-900 hover:text-blue-600 transition-colors">
@@ -193,7 +198,7 @@ export default function AppTableClient({ repos }: AppTableClientProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-600 hover:text-blue-900"
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={handleStopPropagation}
                   >
                     View
                   </a>
@@ -212,11 +217,11 @@ export default function AppTableClient({ repos }: AppTableClientProps) {
       {selectedRepo && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-          onClick={() => setSelectedRepo(null)}
+          onClick={handleModalClose}
         >
           <div
             className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
+            onClick={handleStopPropagation}
           >
             <div className="p-6">
               <div className="flex justify-between items-start mb-6">
@@ -225,7 +230,7 @@ export default function AppTableClient({ repos }: AppTableClientProps) {
                   <p className="text-gray-600 mt-1">{selectedRepo.description}</p>
                 </div>
                 <button
-                  onClick={() => setSelectedRepo(null)}
+                  onClick={handleModalClose}
                   className="text-gray-400 hover:text-gray-600"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -357,7 +362,7 @@ export default function AppTableClient({ repos }: AppTableClientProps) {
                   View Repository
                 </a>
                 <button
-                  onClick={() => setSelectedRepo(null)}
+                  onClick={handleModalClose}
                   className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
                 >
                   Close
