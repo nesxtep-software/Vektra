@@ -43,12 +43,13 @@ import telemetry from '../data/portfolio-telemetry.json';
   <AppTable />
 
   <script>
-    const refreshBtn = document.getElementById('refresh-btn');
+    // @ts-ignore - Inline script in Astro, types not applicable
+    const refreshBtn = document.getElementById('refresh-btn') as HTMLButtonElement;
     const refreshText = document.getElementById('refresh-text');
 
     refreshBtn?.addEventListener('click', async () => {
-      refreshBtn.disabled = true;
-      refreshText.textContent = 'Refreshing...';
+      if (refreshBtn) refreshBtn.disabled = true;
+      if (refreshText) refreshText.textContent = 'Refreshing...';
 
       try {
         const response = await fetch('/api/refresh', {
@@ -64,10 +65,10 @@ import telemetry from '../data/portfolio-telemetry.json';
           alert(`Failed to refresh data: ${result.message}`);
         }
       } catch (error) {
-        alert(`Error: ${error.message}`);
+        alert(`Error: ${(error as Error).message}`);
       } finally {
-        refreshBtn.disabled = false;
-        refreshText.textContent = 'Refresh Data';
+        if (refreshBtn) refreshBtn.disabled = false;
+        if (refreshText) refreshText.textContent = 'Refresh Data';
       }
     });
   </script>
