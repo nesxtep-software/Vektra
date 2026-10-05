@@ -157,7 +157,7 @@ function calculateMaturityScore(repo) {
   }
 
   // Recent Activity (Weight: 15%)
-  // +15 if commits within last 30 days, +10 if within 60 days, +5 if within 180 days
+  // +15 if commits within last 30 days, +12 if within 60 days, +8 if within 180 days, +5 if within 1 year
   const pushedAt = new Date(repo.pushedAt);
   const now = new Date();
   const daysSinceLastCommit = Math.floor((now - pushedAt) / (1000 * 60 * 60 * 24));
@@ -165,8 +165,10 @@ function calculateMaturityScore(repo) {
   if (daysSinceLastCommit <= 30) {
     score += 15;
   } else if (daysSinceLastCommit <= 60) {
-    score += 10;
+    score += 12;
   } else if (daysSinceLastCommit <= 180) {
+    score += 8;
+  } else if (daysSinceLastCommit <= 365) {
     score += 5;
   }
 

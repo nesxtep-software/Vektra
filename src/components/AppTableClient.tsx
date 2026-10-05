@@ -8,6 +8,7 @@ export default function AppTableClient({ repos }: AppTableClientProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [sortBy, setSortBy] = useState('lastUpdated');
+  const [selectedRepo, setSelectedRepo] = useState<any>(null);
 
   const filteredAndSortedRepos = useMemo(() => {
     let filtered = repos;
@@ -139,13 +140,12 @@ export default function AppTableClient({ repos }: AppTableClientProps) {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {filteredAndSortedRepos.map((repo) => (
-              <tr key={repo.name} className="hover:bg-gray-50">
+              <tr key={repo.name} className="hover:bg-gray-50 cursor-pointer" onClick={() => setSelectedRepo(repo)}>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
-                    <div>
-                      <div className="text-sm font-medium text-gray-900">{repo.name}</div>
-                      <div className="text-sm text-gray-500">{repo.primaryLanguage}</div>
-                    </div>
+                    <button className="text-sm font-medium text-gray-900 hover:text-blue-600 transition-colors">
+                      {repo.name}
+                    </button>
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
@@ -202,6 +202,7 @@ export default function AppTableClient({ repos }: AppTableClientProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-600 hover:text-blue-900"
+                    onClick={(e) => e.stopPropagation()}
                   >
                     View
                   </a>
@@ -215,6 +216,166 @@ export default function AppTableClient({ repos }: AppTableClientProps) {
       <div className="mt-4 text-sm text-gray-500">
         Showing {filteredAndSortedRepos.length} of {repos.length} applications
       </div>
+
+      {/* Modal for repo details */}
+      {selectedRepo && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          onClick={() => setSelectedRepo(null)}
+        >
+          <div
+            className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="p-6">
+              <div className="flex justify-between items-start mb-6">
+                <div>
+                  <h3 className="text-2xl font-bold text-gray-900">{selectedRepo.name}</h3>
+                  <p className="text-gray-600 mt-1">{selectedRepo.description}</p>
+                </div>
+                <button
+                  onClick={() => setSelectedRepo(null)}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+                </button>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-sm text-gray-500">Maturity Score</p>
+                  <p className="text-3xl font-bold text-gray-900">{selectedRepo.maturityScore}%</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-sm text-gray-500">Status</p>
+                  <p className="text-lg font-semibold text-gray-900">{selectedRepo.maturityLevel}</p>
+                </div>
+              </div>
+
+              <div className="space-y-4 mb-6">
+                <div>
+                  <p className="text-sm font-medium text-gray-700 mb-2">Characteristics</p>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedRepo.hasReadme && (
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                        Documentation
+                      </span>
+                    )}
+                    {selectedRepo.hasDockerfile && (
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                        Docker
+                      </span>
+                    )}
+                    {selectedRepo.hasDockerCompose && (
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                        Docker Compose
+                      </span>
+                    )}
+                    {selectedRepo.hasPackageJson && (
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800">
+                        Package Manager
+                      </span>
+                    )}
+                    {selectedRepo.releases && selectedRepo.releases.length > 0 && (
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-orange-100 text-orange-800">
+                        {selectedRepo.releases.length} Release{selectedRepo.releases.length > 1 ? 's' : ''}
+                      </span>
+                    )}
+                    {selectedRepo.tags && selectedRepo.tags.length > 0 && (
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-teal-100 text-teal-800">
+                        {selectedRepo.tags.length} Tag{selectedRepo.tags.length > 1 ? 's' : ''}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-sm font-medium text-gray-700 mb-2">Technical Details</p>
+                  <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <span className="text-gray-500">Language:</span>
+                      <span className="ml-2 text-gray-900">{selectedRepo.primaryLanguage}</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-500">Version:</span>
+                      <span className="ml-2 text-gray-900">{selectedRepo.version || 'N/A'}</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-500">Stars:</span>
+                      <span className="ml-2 text-gray-900">{selectedRepo.stargazerCount}</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-500">Open Issues:</span>
+                      <span className="ml-2 text-gray-900">{selectedRepo.openIssues}</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-500">Closed Issues:</span>
+                      <span className="ml-2 text-gray-900">{selectedRepo.closedIssues}</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-500">Last Commit:</span>
+                      <span className="ml-2 text-gray-900">{formatDate(selectedRepo.pushedAt)}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {selectedRepo.milestone && (
+                  <div>
+                    <p className="text-sm font-medium text-gray-700 mb-2">Current Milestone</p>
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm font-medium text-gray-900">{selectedRepo.milestone.title}</span>
+                        <span className="text-sm text-gray-500">{getMilestoneProgress(selectedRepo.milestone)}%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div
+                          className="bg-blue-600 h-2 rounded-full"
+                          style={{ width: `${getMilestoneProgress(selectedRepo.milestone)}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {selectedRepo.topics && selectedRepo.topics.length > 0 && (
+                  <div>
+                    <p className="text-sm font-medium text-gray-700 mb-2">Topics</p>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedRepo.topics.map((topic) => (
+                        <span
+                          key={topic}
+                          className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-700"
+                        >
+                          {topic}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="flex justify-end space-x-3">
+                <a
+                  href={`https://github.com/nesxtep-software/${selectedRepo.name}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  View Repository
+                </a>
+                <button
+                  onClick={() => setSelectedRepo(null)}
+                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
