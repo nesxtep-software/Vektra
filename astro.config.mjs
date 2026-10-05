@@ -9,6 +9,6 @@ export default defineConfig({
     react(),
   ],
   output: 'static',
-  site: 'https://nesxtep-software.github.io/Vektra',
+  site: import.meta.env.DEV ? 'http://localhost:4321' : 'https://nesxtep-software.github.io/Vektra',
   base: import.meta.env.DEV ? '/' : '/Vektra',
 });
