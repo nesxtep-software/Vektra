@@ -5,7 +5,6 @@ description: Zero-cost static Application Portfolio Management Dashboard for tra
 
 # Vektra - GitHub Application Portfolio Dashboard
 
-[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-222222?style=flat-square&logo=github)](https://nesxtep-software.github.io/vekra/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 [![Astro](https://img.shields.io/badge/Astro-FF5D01?style=flat-square&logo=astro&logoColor=white)](https://astro.build/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
@@ -13,67 +12,62 @@ description: Zero-cost static Application Portfolio Management Dashboard for tra
 
 A zero-cost static Application Portfolio Management (APM) Dashboard designed to track developmental progress across software repositories in the nesxtep-software GitHub Organization.
 
+## Business Logic & Metrics
+
+Vektra automatically collects and analyzes GitHub telemetry to measure repository maturity and operational readiness. The metrics are organized into dimensions:
+
+- **Dimension 1**: Common Software Engineering Practices (Repository basics, documentation, versioning, CI/CD, governance)
+
+For detailed business logic and metric definitions, see the [docs folder](./docs/README.md).
+
 ## Tech Stack
 - **Framework:** Astro 4.x (Static Site Generation)
 - **Styling:** Tailwind CSS + Lucide Icons
 - **Charting:** Chart.js + react-chartjs-2
 - **API Client:** @octokit/graphql
-- **Deployment:** GitHub Pages via GitHub Actions
+- **Language:** TypeScript
+- **Package Manager:** pnpm (via mise)
+- **CLI Tools:** GitHub CLI (gh)
 
 ## Features
 
 ### Executive Dashboard
 - **Metric Cards:** High-level KPIs including total applications, production assets, high momentum apps, and average maturity score
-- **Maturity Distribution:** Bar chart showing application count across maturity levels (Concept → Production)
+- **Maturity Distribution:** Bar chart showing application count across maturity levels (PoC → MVP → Production)
 - **Activity & Velocity Matrix:** Scatter chart plotting days since last commit vs maturity score
 - **Tech Stack Breakdown:** Doughnut chart showing primary language distribution
 
 ### Application Table
 - Searchable and filterable data table listing all applications
 - Columns: App Name, Status Tag, Version, Milestone Progress, Last Commit Date, Health Indicators, GitHub Link
-- Filters: Search by name/language, Category (Production, Active MVP, Concept)
+- Filters: Search by name/language, Category (Production, MVP, PoC)
 - Sort options: Last Updated, Maturity Score, Open Issues
+- **Details Modal**: Click any app name to view detailed characteristics, technical details, and milestone progress
 
 ### Automated Data Pipeline
 - GitHub GraphQL API integration for harvesting repository metrics
-- Scheduled daily refresh via GitHub Actions
-- Tracks: release tags, commit recency, milestone completion, open/closed issues, file tree footprints
-
-## Maturity Scoring
-
-The dashboard calculates a maturity score (0-100%) based on:
-- **+10** if README.md exists
-- **+15** if package.json exists with version != 0.0.0
-- **+20** if Dockerfile or docker-compose.yml exists
-- **+25** for open/closed issue completion ratio
-- **+30** if commits within last 30 days (+15 if within 60 days)
-- **Automatic Level 5** if repo has `production` topic
-
-### Maturity Levels
-- **Level 1: Concept & Spec** (Score 0–20)
-- **Level 2: Architecture** (Score 21–45)
-- **Level 3: Core MVP** (Score 46–70)
-- **Level 4: Staging / Beta** (Score 71–90)
-- **Level 5: Production** (Score 91–100 or manually flagged)
+- Local data refresh via `mise run ingest`
+- Tracks: releases, tags, CI/CD workflows, documentation, versioning, issues, milestones
 
 ## Getting Started
 
 ### Prerequisites
 - Node.js 20.x
-- GitHub Personal Access Token with `repo` scope
+- GitHub CLI (gh) installed and authenticated
+- pnpm (via mise)
 
 ### Installation
 
 ```bash
 # Clone the repository
-git clone https://github.com/nesxtep-software/vekra.git
-cd vekra
+git clone https://github.com/nesxtep-software/Vektra.git
+cd vektra
 
-# Install dependencies
-npm install
+# Install dependencies (via mise)
+mise install
 
 # Run the development server
-npm run dev
+mise run dev
 ```
 
 ### Ingesting GitHub Data
@@ -81,57 +75,78 @@ npm run dev
 To fetch real data from your GitHub organization:
 
 ```bash
-# Set your GitHub token
-export GITHUB_TOKEN=your_token_here
-export GITHUB_ORG=nesxtep-software
+# Ensure gh-cli is authenticated
+gh auth login
 
 # Run the ingestion script
-npm run ingest
+mise run ingest
 ```
+
+The script will:
+- Fetch all active repositories from the organization
+- Measure maturity based on Common Software Engineering Practices
+- Generate `src/data/portfolio-telemetry.json` (gitignored for local PoC)
 
 ### Building for Production
 
 ```bash
-npm run build
-npm run preview
+# Build the static site
+mise run build
+
+# Preview the build
+mise run preview
 ```
-
-## GitHub Actions Setup
-
-1. Add the following secrets to your repository:
-   - `PORTFOLIO_GITHUB_TOKEN`: GitHub Personal Access Token with `repo` scope
-   - `GITHUB_TOKEN`: Automatically provided by GitHub Actions
-
-2. The workflow will:
-   - Run daily at 00:00 UTC
-   - Refresh telemetry data
-   - Deploy to GitHub Pages
 
 ## Project Structure
 
 ```
 ├── .github/
 │   └── workflows/
-│       └── refresh-telemetry.yml
+│       └── refresh-telemetry.yml (disabled for local PoC)
+├── docs/
+│   ├── README.md (Business logic & metrics definitions)
+│   └── dimension-1-common-practices.md (Dimension 1 specification)
 ├── scripts/
-│   └── ingest-github-telemetry.mjs
+│   └── ingest-github-telemetry.mjs (GitHub telemetry ingestion)
 ├── src/
 │   ├── components/
 │   │   ├── MetricCards.astro
-│   │   ├── MaturityChart.astro
-│   │   ├── ActivityMatrix.astro
-│   │   ├── AppTable.astro
-│   │   └── TechStackBreakdown.astro
+│   │   ├── MaturityChart.astro + MaturityChartClient.tsx
+│   │   ├── ActivityMatrix.astro + ActivityMatrixClient.tsx
+│   │   ├── TechStackBreakdown.astro + TechStackBreakdownClient.tsx
+│   │   ├── AppTable.astro + AppTableClient.tsx
+│   │   └── Layout.astro
 │   ├── data/
-│   │   └── portfolio-telemetry.json
+│   │   ├── portfolio-telemetry.json (generated, gitignored)
+│   │   └── portfolio-telemetry.json.example
 │   ├── layouts/
 │   │   └── Layout.astro
 │   └── pages/
 │       └── index.astro
+├── .mise.toml (mise configuration)
 ├── astro.config.mjs
 ├── package.json
-└── tailwind.config.mjs
+└── tsconfig.json
 ```
+
+## Development Notes
+
+### Current State
+- **Mode**: Local-only PoC (static site generation)
+- **Data**: Local JSON file (gitignored)
+- **Deployment**: GitHub Pages disabled
+- **GitHub Actions**: Telemetry refresh workflow disabled
+
+### TypeScript Configuration
+- Build runs without `astro check` due to React/Chart.js type resolution issues
+- IDE may show lint errors for React imports (false positives, doesn't affect runtime)
+- Runtime/build works correctly despite IDE diagnostics
+
+### Git Workflow
+- Repository: `nesxtep-software/Vektra`
+- Default branch: `main`
+- Feature branch: `feat/implement-portfolio-dashboard`
+- Draft PR: Open for review
 
 ## License
 

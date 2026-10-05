@@ -1,3 +1,9 @@
+---
+title: "Dimension 1: Common Software Engineering Practices"
+description: "Measurements for foundational software engineering practices that apply to any software project"
+weight: 1
+---
+
 # Dimension 1: Common Software Engineering Practices
 
 ## Overview
