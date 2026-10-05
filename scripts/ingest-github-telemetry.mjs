@@ -53,6 +53,15 @@ query FetchOrgPortfolioMetrics($org: String!, $cursor: String) {
         readme: object(expression: "HEAD:README.md") {
           ... on Blob { text }
         }
+        license: object(expression: "HEAD:LICENSE") {
+          ... on Blob { text }
+        }
+        contributing: object(expression: "HEAD:CONTRIBUTING.md") {
+          ... on Blob { text }
+        }
+        changelog: object(expression: "HEAD:CHANGELOG.md") {
+          ... on Blob { text }
+        }
         workflows: object(expression: "HEAD:.github/workflows") {
           ... on Tree {
             entries {
@@ -130,20 +139,34 @@ function calculateMaturityScore(repo) {
   let score = 0;
   let penalty = 0;
 
-  // Documentation (Weight: 10%)
-  // +10 if README.md exists
+  // Documentation (Weight: 15%)
+  // +5 if README.md exists
   if (repo.readme) {
-    score += 10;
+    score += 5;
+  }
+  // +5 if CONTRIBUTING.md exists
+  if (repo.contributing) {
+    score += 5;
+  }
+  // +5 if CHANGELOG.md exists
+  if (repo.changelog) {
+    score += 5;
   }
 
-  // CI/CD Configuration (Weight: 15%)
+  // CI/CD & Automation (Weight: 15%)
   // +15 if has GitHub Actions workflows (CI/CD)
   const hasWorkflows = repo.workflows?.entries?.length > 0;
   if (hasWorkflows) {
     score += 15;
   }
 
-  // Versioning & Release Evidence (Weight: 50%)
+  // Community & Governance (Weight: 10%)
+  // +10 if LICENSE exists
+  if (repo.license) {
+    score += 10;
+  }
+
+  // Versioning & Release Evidence (Weight: 40%)
   // Parse version from package.json or latest release
   let version = null;
   if (repo.packageJson) {
@@ -169,23 +192,23 @@ function calculateMaturityScore(repo) {
       score += 10;
     } else if (major === 1) {
       // MVP: 1.x.x versions
-      score += 30;
+      score += 25;
     } else {
       // Production: 2.x.x and above
-      score += 40;
+      score += 30;
     }
 
     // Additional points for release evidence
     const releases = repo.releases?.nodes || [];
     const hasRelease = releases.some(r => !r.isDraft);
     if (hasRelease) {
-      score += 10;
+      score += 5;
     }
 
     const tags = repo.refs?.nodes || [];
     const hasVersionTag = tags.some(t => /^v?\d+\.\d+\.\d+/.test(t.name));
     if (hasVersionTag) {
-      score += 10;
+      score += 5;
     }
   }
 
@@ -197,17 +220,15 @@ function calculateMaturityScore(repo) {
     score += Math.round(completionRatio * 10);
   }
 
-  // Recent Activity (Weight: 15%)
-  // +15 if commits within last 30 days, +10 if within 60 days, +5 if within 180 days
+  // Recent Activity (Weight: 10%)
+  // +10 if commits within last 30 days, +5 if within 60 days
   const pushedAt = new Date(repo.pushedAt);
   const now = new Date();
   const daysSinceLastCommit = Math.floor((now - pushedAt) / (1000 * 60 * 60 * 24));
 
   if (daysSinceLastCommit <= 30) {
-    score += 15;
-  } else if (daysSinceLastCommit <= 60) {
     score += 10;
-  } else if (daysSinceLastCommit <= 180) {
+  } else if (daysSinceLastCommit <= 60) {
     score += 5;
   }
 
@@ -311,7 +332,11 @@ async function main() {
       hasDockerfile: !!repo.dockerfile,
       hasDockerCompose: !!repo.dockerCompose,
       hasReadme: !!repo.readme,
+      hasLicense: !!repo.license,
+      hasContributing: !!repo.contributing,
+      hasChangelog: !!repo.changelog,
       hasWorkflows: repo.workflows?.entries?.length > 0,
+      defaultBranch: repo.defaultBranchRef?.name || 'main',
       maturityScore,
       maturityLevel,
     };
