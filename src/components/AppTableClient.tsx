@@ -339,7 +339,7 @@ export default function AppTableClient({ repos }: AppTableClientProps) {
                   <div>
                     <p className="text-sm font-medium text-gray-700 mb-2">Topics</p>
                     <div className="flex flex-wrap gap-2">
-                      {selectedRepo.topics.map((topic) => (
+                      {selectedRepo.topics.map((topic: string) => (
                         <span
                           key={topic}
                           className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-700"
