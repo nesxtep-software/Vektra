@@ -23,6 +23,8 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "moduleSuffixes": [".jsx", ".js", ".astro", ".ts", ".tsx"]
+    "moduleSuffixes": [".jsx", ".js", ".astro", ".ts", ".tsx"],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   }
 }
