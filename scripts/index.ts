@@ -97,8 +97,6 @@ async function main(): Promise<void> {
       tags: repo.refs?.nodes || [],
       hasPackageJson: !!repo.packageJson,
       version: extractVersion(repo),
-      hasDockerfile: !!repo.dockerfile,
-      hasDockerCompose: !!repo.dockerCompose,
       hasReadme: !!repo.readme,
       hasLicense: !!repo.license,
       hasContributing: !!repo.contributing,

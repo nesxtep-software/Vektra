@@ -19,12 +19,6 @@ export interface Repository {
   packageJson?: {
     text: string;
   };
-  dockerfile?: {
-    text: string;
-  };
-  dockerCompose?: {
-    text: string;
-  };
   readme?: {
     text: string;
   };
@@ -119,8 +113,6 @@ export interface ProcessedRepository {
   }[];
   hasPackageJson: boolean;
   version: string | null;
-  hasDockerfile: boolean;
-  hasDockerCompose: boolean;
   hasReadme: boolean;
   hasLicense: boolean;
   hasContributing: boolean;

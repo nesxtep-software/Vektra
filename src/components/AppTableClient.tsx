@@ -180,14 +180,14 @@ export default function AppTableClient({ repos }: AppTableClientProps) {
                         Docs
                       </span>
                     )}
-                    {repo.hasDockerfile && (
+                    {repo.hasWorkflows && (
                       <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-blue-100 text-blue-800">
-                        Docker
+                        CI/CD
                       </span>
                     )}
-                    {repo.hasPackageJson && (
-                      <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-purple-100 text-purple-800">
-                        CI
+                    {repo.hasLicense && (
+                      <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
+                        License
                       </span>
                     )}
                   </div>
@@ -259,16 +259,6 @@ export default function AppTableClient({ repos }: AppTableClientProps) {
                         Documentation
                       </span>
                     )}
-                    {selectedRepo.hasDockerfile && (
-                      <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
-                        Docker
-                      </span>
-                    )}
-                    {selectedRepo.hasDockerCompose && (
-                      <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
-                        Docker Compose
-                      </span>
-                    )}
                     {selectedRepo.hasPackageJson && (
                       <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800">
                         Package Manager
@@ -282,6 +272,26 @@ export default function AppTableClient({ repos }: AppTableClientProps) {
                     {selectedRepo.tags && selectedRepo.tags.length > 0 && (
                       <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-teal-100 text-teal-800">
                         {selectedRepo.tags.length} Tag{selectedRepo.tags.length > 1 ? 's' : ''}
+                      </span>
+                    )}
+                    {selectedRepo.hasWorkflows && (
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                        CI/CD
+                      </span>
+                    )}
+                    {selectedRepo.hasLicense && (
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+                        License
+                      </span>
+                    )}
+                    {selectedRepo.hasContributing && (
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-pink-100 text-pink-800">
+                        Contributing
+                      </span>
+                    )}
+                    {selectedRepo.hasChangelog && (
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800">
+                        Changelog
                       </span>
                     )}
                   </div>

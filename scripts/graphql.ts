@@ -23,12 +23,6 @@ query FetchOrgPortfolioMetrics($org: String!, $cursor: String) {
         packageJson: object(expression: "HEAD:package.json") {
           ... on Blob { text }
         }
-        dockerfile: object(expression: "HEAD:Dockerfile") {
-          ... on Blob { text }
-        }
-        dockerCompose: object(expression: "HEAD:docker-compose.yml") {
-          ... on Blob { text }
-        }
         readme: object(expression: "HEAD:README.md") {
           ... on Blob { text }
         }
