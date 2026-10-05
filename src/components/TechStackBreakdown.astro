@@ -11,7 +11,7 @@ const languageCounts = repos.reduce((acc: any, repo: any) => {
 }, {});
 
 const labels = Object.keys(languageCounts);
-const data = Object.values(languageCounts);
+const data = Object.values(languageCounts) as number[];
 
 ---
 
