@@ -57,9 +57,15 @@ const options = {
 
 export default function TechStackBreakdownClient({ labels, data }: TechStackBreakdownClientProps) {
   console.log('TechStackBreakdownClient: Rendering with', labels.length, 'languages');
+
+  // Transform "Unknown" to "Documentation/Empty" for better clarity
+  const transformedLabels = labels.map((label: string): string =>
+    label === 'Unknown' ? 'Documentation/Empty' : label
+  );
+
   return (
     <div style={{ position: 'relative', height: '300px', width: '100%' }}>
-      <Doughnut data={chartData(labels, data)} options={options} />
+      <Doughnut data={chartData(transformedLabels, data)} options={options} />
     </div>
   );
 }
