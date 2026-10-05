@@ -1,16 +1,25 @@
 #!/usr/bin/env node
 
 import { graphql } from '@octokit/graphql';
+import { execSync } from 'child_process';
 import { writeFileSync } from 'fs';
 import { resolve } from 'path';
 
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const GITHUB_ORG = process.env.GITHUB_ORG || 'nesxtep-software';
 
-if (!GITHUB_TOKEN) {
-  console.error('GITHUB_TOKEN environment variable is required');
-  process.exit(1);
+// Get GitHub token from gh-cli
+function getGitHubToken() {
+  try {
+    const token = execSync('gh auth token', { encoding: 'utf-8' }).trim();
+    return token;
+  } catch (error) {
+    console.error('Failed to get GitHub token from gh-cli. Make sure gh-cli is installed and authenticated.');
+    console.error('Run: gh auth login');
+    process.exit(1);
+  }
 }
+
+const GITHUB_TOKEN = getGitHubToken();
 
 const QUERY = `
 query FetchOrgPortfolioMetrics($org: String!, $cursor: String) {

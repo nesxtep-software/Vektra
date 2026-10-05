@@ -5,14 +5,29 @@ import MaturityChart from '../components/MaturityChart.astro';
 import ActivityMatrix from '../components/ActivityMatrix.astro';
 import TechStackBreakdown from '../components/TechStackBreakdown.astro';
 import AppTable from '../components/AppTable.astro';
+import telemetry from '../data/portfolio-telemetry.json';
 ---
 
 <Layout title="Dashboard">
-  <div class="mb-8">
-    <h2 class="text-3xl font-bold text-gray-900 mb-2">Portfolio Dashboard</h2>
-    <p class="text-gray-600">
-      Track developmental progress across all nesxtep-software repositories
-    </p>
+  <div class="mb-8 flex justify-between items-start">
+    <div>
+      <h2 class="text-3xl font-bold text-gray-900 mb-2">Portfolio Dashboard</h2>
+      <p class="text-gray-600">
+        Track developmental progress across all nesxtep-software repositories
+      </p>
+      <p class="text-sm text-gray-400 mt-1">
+        Last updated: {new Date(telemetry.generatedAt).toLocaleString()}
+      </p>
+    </div>
+    <button
+      onclick="alert('To refresh data, run: mise run ingest\\n\\nThis requires gh-cli to be authenticated with: gh auth login')"
+      class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors flex items-center gap-2"
+    >
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+      </svg>
+      Refresh Data
+    </button>
   </div>
 
   <MetricCards />
