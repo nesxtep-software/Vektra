@@ -5,6 +5,8 @@ description: "Business logic and metrics collected by Vektra for GitHub organiza
 
 # Vektra Metrics & Dimensions
 
+**← [Back to Main README](../README.md)**
+
 ## Overview
 
 Vektra automatically collects and analyzes GitHub telemetry to measure the maturity and operational readiness of repositories across the `nesxtep-software` organization. The metrics are organized into dimensions, each focusing on specific aspects of software engineering and production readiness.

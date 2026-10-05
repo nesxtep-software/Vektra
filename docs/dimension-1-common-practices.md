@@ -6,6 +6,8 @@ weight: 1
 
 # Dimension 1: Common Software Engineering Practices
 
+**← [Back to Metrics & Dimensions](./README.md) | [Main README](../README.md)**
+
 ## Overview
 
 This dimension measures the foundational software engineering practices that apply to any software project, regardless of technology stack or deployment method. These are the basic building blocks of a healthy, maintainable codebase.
