@@ -21,7 +21,7 @@ const data = (repos: any[], now: string) => ({
       data: repos.map((repo) => {
         const pushedAt = new Date(repo.pushedAt);
         const nowDate = new Date(now);
-        const daysSinceCommit = Math.floor((nowDate - pushedAt) / (1000 * 60 * 60 * 24));
+        const daysSinceCommit = Math.floor((nowDate.getTime() - pushedAt.getTime()) / (1000 * 60 * 60 * 24));
         return {
           x: daysSinceCommit,
           y: repo.maturityScore,
