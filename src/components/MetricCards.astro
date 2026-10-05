@@ -1,20 +1,22 @@
 ---
 import telemetry from '../data/portfolio-telemetry.json';
 
-const repos = telemetry.repositories;
+const repos = telemetry.repositories || [];
 const totalApps = repos.length;
 const productionApps = repos.filter(
   (r) => r.maturityLevel === 'Level 5: Production'
 ).length;
 const now = new Date();
 const highMomentumApps = repos.filter((r) => {
-  const pushedAt = new Date(r.pushedAt);
-  const daysSince = Math.floor((now - pushedAt) / (1000 * 60 * 60 * 24));
+  const pushedAt = new Date(r.pushedAt as string);
+  const daysSince = Math.floor((now.getTime() - pushedAt.getTime()) / (1000 * 60 * 60 * 24));
   return daysSince <= 14;
 }).length;
-const avgMaturityScore = Math.round(
-  repos.reduce((sum, r) => sum + r.maturityScore, 0) / repos.length
-);
+const avgMaturityScore = repos.length > 0
+  ? Math.round(
+      repos.reduce((sum, r) => sum + (r.maturityScore as number), 0) / repos.length
+    )
+  : 0;
 ---
 
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
