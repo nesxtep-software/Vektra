@@ -19,7 +19,7 @@ status: "published"
 
 **Importante:** Los cambios de release (CHANGELOG.md y version bump) también deben hacerse en la rama de feature ANTES del merge, ya que main tiene protección que prohíbe commits directos.
 
-## Flujo Completo de Desarrollo y Release
+## Flujo de Desarrollo
 
 ```mermaid
 flowchart TD
@@ -41,23 +41,18 @@ flowchart TD
         K --> L[Delete Feature Branch]
     end
     
-    subgraph Release["Release Process"]
-        L --> M[Checkout main]
-        M --> N[Pull origin main]
-        N --> O[Create signed tag]
-        O --> P[Push tag]
-        P --> Q[Create GitHub Release]
-    end
+    L --> M[Release Workflow<br/>→ release-workflow.md]
     
     style Feature fill:#e1f5ff
     style Merge fill:#fff4e6
-    style Release fill:#e6f5ff
+    style M fill:#e6f5ff
     style A fill:#4ecdc4
     style G fill:#95e1d3
-    style H fill:#ff6b6b
-    style O fill:#feca57
-    style Q fill:#4ecdc4
+    style J fill:#ff6b6b
+    style M stroke:#4ecdc4,stroke-width:2px
 ```
+
+**Continuación del workflow:** Después del merge, ver [Release Workflow](./release-workflow.md) para el proceso de creación de tags y GitHub release.
 
 ### Paso a Paso
 
@@ -89,10 +84,7 @@ git push origin feat/nombre-feature
 - Delete feature branch
 
 **5. Release**
-- Checkout main y pull
-- Create signed tag
-- Push tag
-- Create GitHub Release
+- Continuar en [Release Workflow](./release-workflow.md)
 
 ## Estrategia de Branching
 
@@ -169,7 +161,50 @@ type(scope): description
 - Todos los commits deben ser firmados con GPG
 - Mensajes descriptivos
 
-### Fase 4: Pull Request
+### Fase 4: Pre-Merge Release Prep
+
+**En la rama de feature, antes de crear el PR:**
+
+```bash
+# Actualizar CHANGELOG.md
+nano CHANGELOG.md
+```
+
+**Formato de CHANGELOG.md:**
+```markdown
+## [1.0.0] - 2026-10-05
+
+### Added
+- Feature 1
+- Feature 2
+
+### Changed
+- Updated something
+
+### Fixed
+- Fixed bug 1
+```
+
+**Bump version en package.json:**
+```json
+{
+  "version": "1.0.0"
+}
+```
+
+**Commit de version bump:**
+```bash
+git add CHANGELOG.md package.json
+git commit -m "chore: bump version to 1.0.0"
+git push origin feat/nombre-feature
+```
+
+**Decisión de versión (SemVer):**
+- **MAJOR**: Cambios breaking incompatibles
+- **MINOR**: Nuevas features backward-compatible
+- **PATCH**: Bug fixes backward-compatible
+
+### Fase 5: Pull Request
 
 ```bash
 git push origin feat/nombre-feature
@@ -180,7 +215,7 @@ git push origin feat/nombre-feature
 - Incluir número de issue si aplica
 - Request review
 
-### Fase 5: Merge
+### Fase 6: Merge
 
 1. **Squash merge** (recomendado) - history limpia
 2. **Delete feature branch**
@@ -188,6 +223,8 @@ git push origin feat/nombre-feature
    git branch -d feat/nombre-feature
    git push origin --delete feat/nombre-feature
    ```
+
+**Después del merge:** Continuar en [Release Workflow](./release-workflow.md) para crear el tag y GitHub release.
 
 ## Configuración TypeScript
 

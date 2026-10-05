@@ -19,152 +19,90 @@ Protocolo estandarizado para crear releases en Vektra, asegurando versionamiento
 
 **Regla Clave:** Como `main` tiene protección que prohíbe commits directos, todos los cambios de release (CHANGELOG.md y version bump) deben hacerse en la rama de feature ANTES del merge.
 
-## Flujo Completo de Release
+## Flujo de Release
+
+**Antes del release:** Ver [Development Workflow](./development-workflow.md) para el proceso de desarrollo y merge a main.
 
 ```mermaid
 flowchart TD
-    subgraph Feature["Feature Branch"]
-        A[Desarrollar Feature] --> B[Update CHANGELOG.md]
-        B --> C[Bump package.json version]
-        C --> D[Commit version bump]
-        D --> E[Push feature branch]
-    end
-    
-    subgraph PreRelease["Pre-Release"]
-        E --> F{PR Approved?}
-        F -->|No| G[Wait for Approval]
-        G --> F
-        F -->|Sí| H[Mark PR as Ready]
-    end
-    
-    subgraph Merge["Merge to Main"]
-        H --> I[Squash Merge]
-        I --> J[Delete Feature Branch]
-    end
+    A[Development Workflow<br/>→ development-workflow.md] --> B[Merge completado en main]
     
     subgraph ReleaseSteps["Release Steps"]
-        J --> K[Checkout main]
-        K --> L[Pull origin main]
-        L --> M[Create signed tag]
-        M --> N[Push tag]
-        N --> O[Create GitHub Release]
+        B --> C[Checkout main]
+        C --> D[Pull origin main]
+        D --> E[Create signed tag]
+        E --> F[Push tag]
+        F --> G[Create GitHub Release]
     end
     
-    style Feature fill:#e1f5ff
-    style PreRelease fill:#fff4e6
-    style Merge fill:#ffe6e6
+    style A fill:#e1f5ff
+    style B fill:#fff4e6
     style ReleaseSteps fill:#e6f5ff
-    style C fill:#feca57
-    style H fill:#95e1d3
-    style I fill:#ff6b6b
-    style M fill:#feca57
-    style O fill:#4ecdc4
+    style A stroke:#4ecdc4,stroke-width:2px
+    style E fill:#feca57
+    style G fill:#4ecdc4
 ```
 
 ## Proceso de Release
 
-### Paso 1: Preparar Feature Branch (antes de PR)
+**Prerrequisito:** El feature branch debe haber sido mergeado a main siguiendo el [Development Workflow](./development-workflow.md).
 
-**En la rama de feature:**
+### Pasos Pre-Release (en Feature Branch)
 
-```bash
-# Actualizar CHANGELOG.md
-nano CHANGELOG.md
-```
+Estos pasos ya deben haberse completado en la rama de feature antes del merge:
 
-**Formato:**
-```markdown
-## [1.0.0] - 2026-10-05
+1. **Update CHANGELOG.md** - Documentar todos los cambios
+2. **Bump package.json version** - Actualizar a nueva versión (SemVer)
+3. **Commit version bump** - `git add CHANGELOG.md package.json && git commit -m "chore: bump version to 1.0.0"`
+4. **Push feature branch** - `git push origin feat/nombre-feature`
+5. **Create PR** - Crear Pull Request en GitHub
+6. **Validate approval** - Esperar aprobación del PR
+7. **Mark as ready** - Marcar PR como ready for merge
+8. **Squash merge** - Merge squash a main desde GitHub
 
-### Added
-- Feature 1
-- Feature 2
+Ver [Development Workflow](./development-workflow.md) para detalles completos de estos pasos.
 
-### Changed
-- Updated something
-
-### Fixed
-- Fixed bug 1
-```
-
-**Reglas:**
-- Documentar todos los cambios significativos
-- Agrupar por categoría (Added, Changed, Fixed, Removed)
-- Incluir fecha de release
-- Referenciar issues o PRs si aplica
-
-### Paso 2: Bump de Versión (en feature branch)
-
-**Actualizar package.json:**
-
-```json
-{
-  "version": "1.0.0"  // bump to next version
-}
-```
-
-**Decisión de Versión (SemVer):**
-
-|| Tipo | Cuándo usar | Ejemplo |
-||------|-------------|---------|
-|| **MAJOR** | Cambios breaking incompatibles, cambios mayores en API | 1.0.0 → 2.0.0 |
-|| **MINOR** | Nuevas features backward-compatible | 1.0.0 → 1.1.0 |
-|| **PATCH** | Bug fixes backward-compatible | 1.0.0 → 1.0.1 |
-
-**Clasificación de Madurez:**
-
-|| Nivel | Rango de Versión | Descripción |
-||-------|------------------|-------------|
-|| PoC | < 1.0.0 (0.x.x) | Proof of Concept, experimental |
-|| MVP | 1.0.0 - 1.99.99 (1.x.x) | Minimum Viable Product, estable pero evolucionando |
-|| Production | ≥ 2.0.0 (2.x.x+) | Production-ready, maduro, API estable |
-
-### Paso 3: Commit de Version Bump (en feature branch)
-
-```bash
-git add CHANGELOG.md package.json
-git commit -m "chore: bump version to 1.0.0"
-git push origin feat/nombre-feature
-```
-
-**Regla:** Este commit debe ser único y limpio, solo para version bump.
-
-### Paso 4: Validar PR Approval
-
-```bash
-# Verificar estado del PR en GitHub
-gh pr view <PR_NUMBER>
-```
-
-**Requisitos:**
-- PR debe estar approved
-- CI/CD checks deben pasar (si están habilitados)
-- No conflicts con main
-
-### Paso 5: Marcar PR como Ready
-
-En GitHub:
-- Ir al PR
-- Click "Mark as ready for review" (si está en draft)
-- Asegurar que esté en estado "Ready to merge"
-
-### Paso 6: Squash Merge
-
-En GitHub:
-- Click "Merge pull request"
-- Select "Squash and merge"
-- Confirm merge
-
-**Resultado:** Feature branch merged a main con un solo commit
-
-### Paso 7: Checkout Main y Pull
+### Paso 1: Checkout Main y Pull
 
 ```bash
 git checkout main
 git pull origin main
 ```
 
-### Paso 8: Crear Tag Firmado
+### Paso 2: Crear Tag Firmado
+
+```bash
+git tag -a v1.0.0 -m "Release v1.0.0"
+```
+
+**Regla:** Tag debe crearse DESPUÉS del merge a main, nunca antes.
+
+**Verificar tag:**
+```bash
+git tag -l -n1
+git show v1.0.0
+```
+
+### Paso 3: Push Tag
+
+```bash
+git push origin v1.0.0
+```
+
+### Paso 4: GitHub Release
+
+1. **Ir a GitHub**
+   - Repository → Releases → "Create a new release"
+
+2. **Configurar Release**
+   - Choose tag: `v1.0.0`
+   - Release title: `v1.0.0`
+   - Description: Copiar contenido de CHANGELOG.md
+
+3. **Publicar**
+   - Click "Publish release"
+
+### Paso 5: Post-Release
 
 ```bash
 git tag -a v1.0.0 -m "Release v1.0.0"
@@ -236,6 +174,23 @@ git push origin :refs/tags/v1.0.0
 
 ## Versioning Strategy
 
+### SemVer Guidelines
+
+Ver [Development Workflow](./development-workflow.md) para detalles completos sobre cómo decidir el tipo de version bump.
+
+**Resumen:**
+- **MAJOR**: Cambios breaking incompatibles (1.0.0 → 2.0.0)
+- **MINOR**: Nuevas features backward-compatible (1.0.0 → 1.1.0)
+- **PATCH**: Bug fixes backward-compatible (1.0.0 → 1.0.1)
+
+### Clasificación de Madurez
+
+|| Nivel | Rango de Versión | Descripción |
+||-------|------------------|-------------|
+|| PoC | < 1.0.0 (0.x.x) | Proof of Concept, experimental |
+|| MVP | 1.0.0 - 1.99.99 (1.x.x) | Minimum Viable Product, estable pero evolucionando |
+|| Production | ≥ 2.0.0 (2.x.x+) | Production-ready, maduro, API estable |
+
 ### Primera Release (1.0.0)
 
 **Criterios:**
@@ -243,23 +198,6 @@ git push origin :refs/tags/v1.0.0
 - Dashboard funcional con datos reales
 - Documentation completa
 - Build y deployment funcionan
-
-### Releases Subsecuentes
-
-**Incremento PATCH (1.0.0 → 1.0.1):**
-- Bug fixes
-- Pequeñas mejoras
-- Documentación updates
-
-**Incremento MINOR (1.0.0 → 1.1.0):**
-- Nuevas features
-- Nuevas dimensiones de métricas
-- Mejoras significativas en UI
-
-**Incremento MAJOR (1.0.0 → 2.0.0):**
-- Cambios breaking
-- Rediseño mayor de arquitectura
-- Cambios en data model
 
 ## Branch Protection
 
@@ -274,15 +212,12 @@ En GitHub → Settings → Branches:
 - [x] Require branches to be up to date before merging
 - [x] Do not allow bypassing the above settings
 
-## Checklist de Release (10 Pasos)
+## Checklist de Release (5 Pasos)
 
-- [ ] **1.** UPDATE CHANGELOG.md - En feature branch, documentar cambios
-- [ ] **2.** BUMP SemVer - En feature branch, actualizar package.json
-- [ ] **3.** COMMIT VERSION BUMP - En feature branch, commit de changelog y version
-- [ ] **4.** PUSH FEATURE - Push feature branch con cambios de release
-- [ ] **5.** VALIDATE APPROVAL - Verificar que PR está approved
-- [ ] **6.** MARK READY - Cambiar estado de PR a ready
-- [ ] **7.** SQUASH MERGE - Merge squash a main desde GitHub
-- [ ] **8.** CHECKOUT MAIN - `git checkout main` y `git pull origin main`
-- [ ] **9.** CREATE SIGNED TAG - `git tag -a v1.0.0 -m "Release v1.0.0"`
-- [ ] **10.** PUBLISH RELEASE - Crear y publicar GitHub release desde el tag
+**Prerrequisito:** Feature branch mergeado a main con CHANGELOG.md y version bump (ver [Development Workflow](./development-workflow.md))
+
+- [ ] **1.** CHECKOUT MAIN - `git checkout main` y `git pull origin main`
+- [ ] **2.** CREATE SIGNED TAG - `git tag -a v1.0.0 -m "Release v1.0.0"`
+- [ ] **3.** PUSH TAG - `git push origin v1.0.0`
+- [ ] **4.** CREATE GITHUB RELEASE - Ir a GitHub → Releases → Create new release
+- [ ] **5.** PUBLISH RELEASE - Seleccionar tag, copiar CHANGELOG.md, publicar
