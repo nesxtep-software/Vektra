@@ -48,7 +48,7 @@ const options = {
       text: 'Activity & Velocity Matrix',
       font: {
         size: 18,
-        weight: 'bold',
+        weight: 'bold' as const,
       },
       color: '#374151',
     },

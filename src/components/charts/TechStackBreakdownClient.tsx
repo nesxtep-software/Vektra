@@ -41,14 +41,14 @@ const options = {
   maintainAspectRatio: false,
   plugins: {
     legend: {
-      position: 'right',
+      position: 'right' as const,
     },
     title: {
       display: true,
       text: 'Tech Stack & Language Breakdown',
       font: {
         size: 18,
-        weight: 'bold',
+        weight: 'bold' as const,
       },
       color: '#374151',
     },
@@ -58,7 +58,6 @@ const options = {
 export default function TechStackBreakdownClient({ labels, data }: TechStackBreakdownClientProps) {
   console.log('TechStackBreakdownClient: Rendering with', labels.length, 'languages');
 
-  // Transform "Unknown" to "Documentation/Empty" for better clarity
   const transformedLabels = labels.map((label: string): string =>
     label === 'Unknown' ? 'Documentation/Empty' : label
   );

@@ -52,7 +52,7 @@ const options = {
       text: 'Maturity Distribution',
       font: {
         size: 18,
-        weight: 'bold',
+        weight: 'bold' as const,
       },
       color: '#374151',
     },
