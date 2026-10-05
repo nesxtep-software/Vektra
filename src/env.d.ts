@@ -5,6 +5,11 @@ declare module '*.jsx' {
   export default value;
 }
 
+declare module '*.tsx' {
+  let value: any;
+  export default value;
+}
+
 declare module '*.js' {
   let value: any;
   export default value;
