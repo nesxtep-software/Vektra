@@ -17,33 +17,35 @@ status: "published"
 
 **No commits directos a la rama `main`.** Todos los cambios deben pasar por ramas de feature y ser mergeados vía Pull Request.
 
+**Importante:** Los cambios de release (CHANGELOG.md y version bump) también deben hacerse en la rama de feature ANTES del merge, ya que main tiene protección que prohíbe commits directos.
+
 ## Flujo Completo de Desarrollo y Release
 
 ```mermaid
 flowchart TD
     subgraph Feature["Feature Development"]
         A[Crear rama feat/*] --> B[Desarrollar y Commits]
-        B --> C[Push a origin]
-        C --> D[Crear Pull Request]
-        D --> E{PR Approved?}
-        E -->|No| F[Address Feedback]
-        F --> D
-        E -->|Sí| G[Mark PR as Ready]
+        B --> C[Update CHANGELOG.md]
+        C --> D[Bump package.json version]
+        D --> E[Commit version bump]
+        E --> F[Push a origin]
+        F --> G[Crear Pull Request]
+        G --> H{PR Approved?}
+        H -->|No| I[Address Feedback]
+        I --> G
+        H -->|Sí| J[Mark PR as Ready]
     end
     
     subgraph Merge["Merge a Main"]
-        G --> H[Squash Merge]
-        H --> I[Delete Feature Branch]
+        J --> K[Squash Merge]
+        K --> L[Delete Feature Branch]
     end
     
     subgraph Release["Release Process"]
-        I --> J[Checkout main]
-        J --> K[Pull origin main]
-        K --> L[Update CHANGELOG.md]
-        L --> M[Bump package.json version]
-        M --> N[Commit version bump]
+        L --> M[Checkout main]
+        M --> N[Pull origin main]
         N --> O[Create signed tag]
-        O --> P[Push main and tag]
+        O --> P[Push tag]
         P --> Q[Create GitHub Release]
     end
     
@@ -65,26 +67,31 @@ git checkout main
 git pull origin main
 git checkout -b feat/nombre-feature
 # Desarrollar y hacer commits
+```
+
+**2. Pre-Merge Prep (en feature branch)**
+```bash
+# Actualizar CHANGELOG.md
+# Bump package.json version
+git add CHANGELOG.md package.json
+git commit -m "chore: bump version to 1.0.0"
 git push origin feat/nombre-feature
 ```
 
-**2. Pull Request**
+**3. Pull Request**
 - Crear PR en GitHub
 - Request review
 - Wait for approval
 - Mark PR as ready
 
-**3. Merge**
+**4. Merge**
 - Squash merge (recomendado)
 - Delete feature branch
 
-**4. Release**
+**5. Release**
 - Checkout main y pull
-- Update CHANGELOG.md
-- Bump package.json version
-- Commit version bump
 - Create signed tag
-- Push main and tag
+- Push tag
 - Create GitHub Release
 
 ## Estrategia de Branching
