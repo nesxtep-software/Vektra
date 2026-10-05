@@ -108,40 +108,43 @@ function calculateMaturityScore(repo) {
     score += 10;
   }
 
-  // +15 if package.json exists and version != 0.0.0
+  // +20 if package.json exists and version != 0.0.0 (increased from 15)
   if (repo.packageJson) {
     try {
       const packageData = JSON.parse(repo.packageJson.text);
       const version = packageData.version || '0.0.0';
       if (version !== '0.0.0') {
-        score += 15;
+        score += 20;
       }
     } catch (e) {
       // Invalid JSON, skip
     }
   }
 
-  // +20 if Dockerfile or docker-compose.yml exists
+  // +15 if Dockerfile or docker-compose.yml exists (reduced from 20)
   if (repo.dockerfile || repo.dockerCompose) {
-    score += 20;
+    score += 15;
   }
 
-  // +25 for open/closed issue completion ratio
+  // +20 for open/closed issue completion ratio (reduced from 25)
   const totalIssues = repo.openIssues.totalCount + repo.closedIssues.totalCount;
   if (totalIssues > 0) {
     const completionRatio = repo.closedIssues.totalCount / totalIssues;
-    score += Math.round(completionRatio * 25);
+    score += Math.round(completionRatio * 20);
   }
 
-  // +30 if commits within last 30 days, +15 if within 60 days
+  // +25 if commits within last 30 days, +15 if within 60 days (reduced from 30/15)
   const pushedAt = new Date(repo.pushedAt);
   const now = new Date();
   const daysSinceLastCommit = Math.floor((now - pushedAt) / (1000 * 60 * 60 * 24));
 
   if (daysSinceLastCommit <= 30) {
-    score += 30;
+    score += 25;
   } else if (daysSinceLastCommit <= 60) {
     score += 15;
+  } else if (daysSinceLastCommit <= 180) {
+    // +10 if commits within last 6 months (new)
+    score += 10;
   }
 
   // Check for production topic
@@ -149,17 +152,17 @@ function calculateMaturityScore(repo) {
     (t) => t.topic.name === 'production'
   );
   if (isProduction) {
-    score = Math.max(score, 91);
+    score = Math.max(score, 85); // Reduced threshold from 91 to 85
   }
 
   return Math.min(score, 100);
 }
 
 function getMaturityLevel(score) {
-  if (score <= 20) return 'Level 1: Concept & Spec';
-  if (score <= 45) return 'Level 2: Architecture';
+  if (score <= 25) return 'Level 1: Concept & Spec';
+  if (score <= 50) return 'Level 2: Architecture';
   if (score <= 70) return 'Level 3: Core MVP';
-  if (score <= 90) return 'Level 4: Staging / Beta';
+  if (score <= 85) return 'Level 4: Staging / Beta';
   return 'Level 5: Production';
 }
 
