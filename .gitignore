@@ -20,8 +20,7 @@ pnpm-lock.yaml
 src/data/portfolio-telemetry.json
 
 # Editor directories and files
-.vscode/*
-!.vscode/settings.json
+.vscode
 .idea
 .DS_Store
 *.suo
