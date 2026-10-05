@@ -9,6 +9,6 @@ export default defineConfig({
     react(),
   ],
   output: 'static',
-  site: 'https://nesxtep-software.github.io/vekra',
-  base: '/vekra',
+  site: 'https://nesxtep-software.github.io/Vektra',
+  base: '/Vektra',
 });
