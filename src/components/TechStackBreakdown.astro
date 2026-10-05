@@ -15,8 +15,8 @@ const data = Object.values(languageCounts);
 
 ---
 
-<div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+<div class="bg-white rounded-lg shadow-sm border border border-gray-200 p-6 mb-8">
   <div class="h-80">
-    <TechStackBreakdownClient client:idle labels={labels} data={data} />
+    <TechStackBreakdownClient client:only labels={labels} data={data} />
   </div>
 </div>

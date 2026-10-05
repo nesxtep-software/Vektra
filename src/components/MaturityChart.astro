@@ -20,6 +20,6 @@ const levelCounts = maturityLevels.map(
 
 <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
   <div class="h-80">
-    <MaturityChartClient client:idle levelCounts={levelCounts} />
+    <MaturityChartClient client:only levelCounts={levelCounts} />
   </div>
 </div>
