@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react';
 import { Scatter } from 'react-chartjs-2';
-// @ts-ignore - Chart.js named exports
 import {
   Chart as ChartJS,
   LinearScale,
@@ -8,6 +6,8 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+
+ChartJS.register(LinearScale, PointElement, Tooltip, Legend);
 
 interface ActivityMatrixClientProps {
   repos: any[];
@@ -31,7 +31,7 @@ const data = (repos: any[], now: string) => ({
       }),
       backgroundColor: 'rgba(59, 130, 246, 0.6)',
       borderColor: 'rgb(59, 130, 246)',
-      borderWidth: 1,
+      borderWidth: 2,
     },
   ],
 });
@@ -47,9 +47,10 @@ const options = {
       display: true,
       text: 'Activity & Velocity Matrix',
       font: {
-        size: 16,
+        size: 18,
         weight: 'bold',
       },
+      color: '#374151',
     },
     tooltip: {
       callbacks: {
@@ -69,41 +70,33 @@ const options = {
       title: {
         display: true,
         text: 'Days Since Last Commit',
+        color: '#374151',
       },
       beginAtZero: true,
+      grid: {
+        color: 'rgba(0, 0, 0, 0.1)',
+      },
     },
     y: {
       title: {
         display: true,
         text: 'Maturity Score (%)',
+        color: '#374151',
       },
       beginAtZero: true,
       max: 100,
+      grid: {
+        color: 'rgba(0, 0, 0, 0.1)',
+      },
     },
   },
 };
 
 export default function ActivityMatrixClient({ repos, now }: ActivityMatrixClientProps) {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    try {
-      ChartJS.register(LinearScale, PointElement, Tooltip, Legend);
-      setIsLoaded(true);
-    } catch (err) {
-      console.error('Chart.js registration error:', err);
-      setError('Failed to load chart');
-    }
-  }, []);
-
-  if (error) {
-    return <div className="flex items-center justify-center h-full text-red-500">Error loading chart</div>;
-  }
-
-  if (!isLoaded) {
-    return <div className="flex items-center justify-center h-full text-gray-400">Loading chart...</div>;
-  }
-
-  return <Scatter data={data(repos, now)} options={options} />;
+  console.log('ActivityMatrixClient: Rendering with', repos.length, 'repos');
+  return (
+    <div style={{ position: 'relative', height: '300px', width: '100%' }}>
+      <Scatter data={data(repos, now)} options={options} />
+    </div>
+  );
 }

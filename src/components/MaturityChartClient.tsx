@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -23,11 +22,11 @@ const data = (levelCounts: number[]) => ({
       label: 'Applications',
       data: levelCounts,
       backgroundColor: [
-        'rgba(239, 68, 68, 0.7)',
-        'rgba(249, 115, 22, 0.7)',
-        'rgba(234, 179, 8, 0.7)',
-        'rgba(34, 197, 94, 0.7)',
-        'rgba(59, 130, 246, 0.7)',
+        'rgba(239, 68, 68, 0.5)',
+        'rgba(249, 115, 22, 0.5)',
+        'rgba(234, 179, 8, 0.5)',
+        'rgba(34, 197, 94, 0.5)',
+        'rgba(59, 130, 246, 0.5)',
       ],
       borderColor: [
         'rgb(239, 68, 68)',
@@ -36,7 +35,7 @@ const data = (levelCounts: number[]) => ({
         'rgb(34, 197, 94)',
         'rgb(59, 130, 246)',
       ],
-      borderWidth: 1,
+      borderWidth: 2,
     },
   ],
 });
@@ -52,9 +51,10 @@ const options = {
       display: true,
       text: 'Maturity Distribution',
       font: {
-        size: 16,
+        size: 18,
         weight: 'bold',
       },
+      color: '#374151',
     },
   },
   scales: {
@@ -63,11 +63,23 @@ const options = {
       ticks: {
         stepSize: 1,
       },
+      grid: {
+        color: 'rgba(0, 0, 0, 0.1)',
+      },
+    },
+    x: {
+      grid: {
+        display: false,
+      },
     },
   },
 };
 
 export default function MaturityChartClient({ levelCounts }: MaturityChartClientProps) {
   console.log('MaturityChartClient: Rendering with data:', levelCounts);
-  return <Bar data={data(levelCounts)} options={options} />;
+  return (
+    <div style={{ position: 'relative', height: '300px', width: '100%' }}>
+      <Bar data={data(levelCounts)} options={options} />
+    </div>
+  );
 }
