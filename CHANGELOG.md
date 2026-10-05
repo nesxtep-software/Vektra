@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.0] - 2026-10-05
 
+### Closed Issues
+- Closes #3 - Configure GitHub API token for telemetry ingestion
+- Closes #4 - Test dashboard with real GitHub organization data
+- Closes #12 - Define Dimension 1: Common Software Engineering Practices
+
 ### Added
 - Initial implementation of Vektra portfolio dashboard
 - Dimension 1: Common Software Engineering Practices metrics
