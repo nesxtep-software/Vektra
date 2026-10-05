@@ -120,7 +120,7 @@ export default function AppTableClient({ repos }: AppTableClientProps) {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Version
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-32">
                 Milestone Progress
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -152,11 +152,11 @@ export default function AppTableClient({ repos }: AppTableClientProps) {
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {repo.version || 'N/A'}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-6 py-4 whitespace-nowrap w-32">
                   {repo.milestone ? (
                     <div className="w-full">
                       <div className="flex items-center justify-between mb-1">
-                        <span className="text-xs text-gray-500">{repo.milestone.title}</span>
+                        <span className="text-xs text-gray-500 truncate">{repo.milestone.title}</span>
                         <span className="text-xs text-gray-500">{getMilestoneProgress(repo.milestone)}%</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
