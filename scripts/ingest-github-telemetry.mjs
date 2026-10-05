@@ -64,6 +64,25 @@ query FetchOrgPortfolioMetrics($org: String!, $cursor: String) {
           }
         }
         latestRelease { name tagName publishedAt }
+        releases(first: 5, orderBy: {field: CREATED_AT, direction: DESC}) {
+          nodes {
+            name
+            tagName
+            isLatest
+            isDraft
+            publishedAt
+          }
+        }
+        refs(refPrefix: "refs/tags/", first: 10) {
+          nodes {
+            name
+            target {
+              ... on Tag {
+                message
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -103,12 +122,14 @@ async function fetchAllRepositories() {
 function calculateMaturityScore(repo) {
   let score = 0;
 
+  // Documentation (Weight: 10%)
   // +10 if README.md exists
   if (repo.readme) {
     score += 10;
   }
 
-  // +20 if package.json exists and version != 0.0.0 (increased from 15)
+  // Versioning (Weight: 20%)
+  // +20 if package.json exists with valid SemVer version (not 0.0.0)
   if (repo.packageJson) {
     try {
       const packageData = JSON.parse(repo.packageJson.text);
@@ -121,45 +142,66 @@ function calculateMaturityScore(repo) {
     }
   }
 
-  // +15 if Dockerfile or docker-compose.yml exists (reduced from 20)
+  // Containerization (Weight: 10%)
+  // +10 if Dockerfile or docker-compose.yml exists
   if (repo.dockerfile || repo.dockerCompose) {
-    score += 15;
+    score += 10;
   }
 
-  // +20 for open/closed issue completion ratio (reduced from 25)
+  // Issue Management (Weight: 15%)
+  // +0 to +15 based on issue completion ratio
   const totalIssues = repo.openIssues.totalCount + repo.closedIssues.totalCount;
   if (totalIssues > 0) {
     const completionRatio = repo.closedIssues.totalCount / totalIssues;
-    score += Math.round(completionRatio * 20);
+    score += Math.round(completionRatio * 15);
   }
 
-  // +25 if commits within last 30 days, +15 if within 60 days (reduced from 30/15)
+  // Recent Activity (Weight: 15%)
+  // +15 if commits within last 30 days, +10 if within 60 days, +5 if within 180 days
   const pushedAt = new Date(repo.pushedAt);
   const now = new Date();
   const daysSinceLastCommit = Math.floor((now - pushedAt) / (1000 * 60 * 60 * 24));
 
   if (daysSinceLastCommit <= 30) {
-    score += 25;
-  } else if (daysSinceLastCommit <= 60) {
     score += 15;
-  } else if (daysSinceLastCommit <= 180) {
-    // +10 if commits within last 6 months (new)
+  } else if (daysSinceLastCommit <= 60) {
     score += 10;
+  } else if (daysSinceLastCommit <= 180) {
+    score += 5;
   }
 
+  // Production Indicators (Weight: 30%)
   // Check for production topic
   const isProduction = repo.repositoryTopics.nodes.some(
     (t) => t.topic.name === 'production'
   );
   if (isProduction) {
-    score = Math.max(score, 85); // Reduced threshold from 91 to 85
+    score += 15; // Production topic gives significant boost
   }
+
+  // Check for GitHub releases (non-draft)
+  const releases = repo.releases?.nodes || [];
+  const hasRelease = releases.some(r => !r.isDraft);
+  if (hasRelease) {
+    score += 10;
+  }
+
+  // Check for version tags (SemVer pattern)
+  const tags = repo.refs?.nodes || [];
+  const hasVersionTag = tags.some(t => /^v?\d+\.\d+\.\d+/.test(t.name));
+  if (hasVersionTag) {
+    score += 5;
+  }
+
+  // Bonus: Signed tags (Level 5 indicator)
+  // Note: GitHub GraphQL API doesn't expose tag signing status, so we can't check this
+  // If you need this, you'd need to use the git CLI or check locally
 
   return Math.min(score, 100);
 }
 
 function getMaturityLevel(score) {
-  if (score <= 25) return 'Level 1: Concept & Spec';
+  if (score <= 30) return 'Level 1: Concept & Spec';
   if (score <= 50) return 'Level 2: Architecture';
   if (score <= 70) return 'Level 3: Core MVP';
   if (score <= 85) return 'Level 4: Staging / Beta';
@@ -205,6 +247,8 @@ async function main() {
           }
         : null,
       latestRelease: repo.latestRelease,
+      releases: repo.releases?.nodes || [],
+      tags: repo.refs?.nodes || [],
       hasPackageJson: !!repo.packageJson,
       version: extractVersion(repo),
       hasDockerfile: !!repo.dockerfile,
