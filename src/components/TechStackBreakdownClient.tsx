@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -5,8 +6,6 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-
-ChartJS.register(ArcElement, Tooltip, Legend);
 
 interface TechStackBreakdownClientProps {
   labels: string[];
@@ -55,5 +54,9 @@ const options = {
 };
 
 export default function TechStackBreakdownClient({ labels, data }: TechStackBreakdownClientProps) {
+  useEffect(() => {
+    ChartJS.register(ArcElement, Tooltip, Legend);
+  }, []);
+
   return <Doughnut data={chartData(labels, data)} options={options} />;
 }

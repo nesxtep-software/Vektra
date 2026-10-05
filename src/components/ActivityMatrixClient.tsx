@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Scatter } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -6,8 +7,6 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-
-ChartJS.register(LinearScale, PointElement, Tooltip, Legend);
 
 interface ActivityMatrixClientProps {
   repos: any[];
@@ -84,5 +83,9 @@ const options = {
 };
 
 export default function ActivityMatrixClient({ repos, now }: ActivityMatrixClientProps) {
+  useEffect(() => {
+    ChartJS.register(LinearScale, PointElement, Tooltip, Legend);
+  }, []);
+
   return <Scatter data={data(repos, now)} options={options} />;
 }

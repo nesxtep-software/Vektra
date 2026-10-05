@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -8,8 +9,6 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 interface MaturityChartClientProps {
   levelCounts: number[];
@@ -67,5 +66,9 @@ const options = {
 };
 
 export default function MaturityChartClient({ levelCounts }: MaturityChartClientProps) {
+  useEffect(() => {
+    ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+  }, []);
+
   return <Bar data={data(levelCounts)} options={options} />;
 }
