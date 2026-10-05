@@ -106,6 +106,11 @@ When adding new dimensions or metrics:
 4. Update the UI to display new metrics
 5. Test with local data refresh
 
+## Documentation
+
+- **[Development Workflow](./development-workflow.md)**: Protocolos de desarrollo, workflow Git, y proceso de release
+- **[Dimension 1: Common Software Engineering Practices](./dimension-1-common-practices.md)**: Detailed metrics and scoring logic
+
 ## Version History
 
 - **v1.0**: Initial implementation with Dimension 1
