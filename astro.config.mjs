@@ -10,5 +10,5 @@ export default defineConfig({
   ],
   output: 'static',
   site: 'https://nesxtep-software.github.io/Vektra',
-  base: '/Vektra',
+  base: import.meta.env.DEV ? '/' : '/Vektra',
 });

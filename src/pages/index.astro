@@ -47,29 +47,8 @@ import telemetry from '../data/portfolio-telemetry.json';
     const refreshBtn = document.getElementById('refresh-btn') as HTMLButtonElement;
     const refreshText = document.getElementById('refresh-text');
 
-    refreshBtn?.addEventListener('click', async () => {
-      if (refreshBtn) refreshBtn.disabled = true;
-      if (refreshText) refreshText.textContent = 'Refreshing...';
-
-      try {
-        const response = await fetch('/api/refresh', {
-          method: 'POST',
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-          alert('Data refreshed successfully! Please refresh the page to see the updated data.');
-          window.location.reload();
-        } else {
-          alert(`Failed to refresh data: ${result.message}`);
-        }
-      } catch (error) {
-        alert(`Error: ${(error as Error).message}`);
-      } finally {
-        if (refreshBtn) refreshBtn.disabled = false;
-        if (refreshText) refreshText.textContent = 'Refresh Data';
-      }
+    refreshBtn?.addEventListener('click', () => {
+      alert('To refresh data:\n\n1. Run this command in your terminal:\n   cd C:\\repos\\pro\\vektra && mise run ingest\n\n2. Then refresh this page\n\nThis requires gh-cli to be authenticated.');
     });
   </script>
 </Layout>
