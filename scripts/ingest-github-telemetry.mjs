@@ -142,25 +142,18 @@ function calculateMaturityScore(repo) {
     }
   }
 
-  // Release Evidence (Weight: 30%)
-  // +20 if has GitHub releases (non-draft)
+  // Release Evidence (Weight: 35%)
+  // +25 if has GitHub releases (non-draft) - Strongest production signal
   const releases = repo.releases?.nodes || [];
   const hasRelease = releases.some(r => !r.isDraft);
   if (hasRelease) {
-    score += 20;
+    score += 25;
   }
 
   // +10 if has version tags (SemVer pattern)
   const tags = repo.refs?.nodes || [];
   const hasVersionTag = tags.some(t => /^v?\d+\.\d+\.\d+/.test(t.name));
   if (hasVersionTag) {
-    score += 10;
-  }
-
-  // Containerization (Weight: 10%)
-  // +10 if Dockerfile or docker-compose.yml exists
-  // Note: Not required for web apps, but good for microservices
-  if (repo.dockerfile || repo.dockerCompose) {
     score += 10;
   }
 
@@ -172,29 +165,20 @@ function calculateMaturityScore(repo) {
     score += Math.round(completionRatio * 10);
   }
 
-  // Recent Activity (Weight: 15%)
-  // +15 if commits within last 30 days, +12 if within 60 days, +8 if within 180 days, +5 if within 1 year
+  // Recent Activity (Weight: 20%)
+  // +20 if commits within last 30 days, +15 if within 60 days, +10 if within 180 days, +5 if within 1 year
   const pushedAt = new Date(repo.pushedAt);
   const now = new Date();
   const daysSinceLastCommit = Math.floor((now - pushedAt) / (1000 * 60 * 60 * 24));
 
   if (daysSinceLastCommit <= 30) {
-    score += 15;
+    score += 20;
   } else if (daysSinceLastCommit <= 60) {
-    score += 12;
+    score += 15;
   } else if (daysSinceLastCommit <= 180) {
-    score += 8;
+    score += 10;
   } else if (daysSinceLastCommit <= 365) {
     score += 5;
-  }
-
-  // Production topic bonus (optional manual signal)
-  // Check for production topic - gives extra boost but not required
-  const isProduction = repo.repositoryTopics.nodes.some(
-    (t) => t.topic.name === 'production'
-  );
-  if (isProduction) {
-    score += 5; // Reduced from 15 - just a bonus now
   }
 
   return Math.min(score, 100);
