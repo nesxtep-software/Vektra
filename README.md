@@ -1,4 +1,15 @@
+---
+title: Vektra - GitHub Application Portfolio Dashboard
+description: Zero-cost static Application Portfolio Management Dashboard for tracking developmental progress across GitHub repositories
+---
+
 # Vektra - GitHub Application Portfolio Dashboard
+
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-222222?style=flat-square&logo=github)](https://nesxtep-software.github.io/vekra/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+[![Astro](https://img.shields.io/badge/Astro-FF5D01?style=flat-square&logo=astro&logoColor=white)](https://astro.build/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Chart.js](https://img.shields.io/badge/Chart.js-FF6384?style=flat-square&logo=chart.js&logoColor=white)](https://www.chartjs.org/)
 
 A zero-cost static Application Portfolio Management (APM) Dashboard designed to track developmental progress across software repositories in the nesxtep-software GitHub Organization.
 
