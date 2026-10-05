@@ -108,7 +108,7 @@ When adding new dimensions or metrics:
 
 ## Documentation
 
-- **[Development Workflow](./development-workflow.md)**: Protocolos de desarrollo, workflow Git, y proceso de release
+- **[Manuals](./manuals/)**: Development workflows, release protocols, and operational procedures
 - **[Dimension 1: Common Software Engineering Practices](./dimension-1-common-practices.md)**: Detailed metrics and scoring logic
 
 ## Version History
