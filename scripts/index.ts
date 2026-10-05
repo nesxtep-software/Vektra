@@ -37,12 +37,12 @@ async function fetchAllRepositories(): Promise<Repository[]> {
 
   while (hasNextPage) {
     console.log(`Fetching repositories with cursor: ${cursor || 'initial'}`);
-    const data = await graphqlWithAuth(QUERY, {
+    const data: { organization: { repositories: { nodes: Repository[]; pageInfo: { hasNextPage: boolean; endCursor: string } } } } = await graphqlWithAuth(QUERY, {
       org: GITHUB_ORG,
       cursor,
     });
 
-    const repos = (data.organization.repositories.nodes as Repository[]).filter(
+    const repos = data.organization.repositories.nodes.filter(
       (repo) => !repo.isArchived
     );
     repositories.push(...repos);
