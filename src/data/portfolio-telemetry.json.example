@@ -1,0 +1,25 @@
+{
+  "generatedAt": "2024-10-04T00:00:00Z",
+  "repositories": [
+    {
+      "name": "example-repo",
+      "description": "Example repository",
+      "primaryLanguage": "TypeScript",
+      "topics": [],
+      "pushedAt": "2024-10-04T00:00:00Z",
+      "stargazerCount": 0,
+      "openIssues": 0,
+      "closedIssues": 0,
+      "milestone": null,
+      "latestRelease": null,
+      "hasPackageJson": true,
+      "version": "0.0.1",
+      "hasDockerfile": false,
+      "hasDockerCompose": false,
+      "hasReadme": true,
+      "maturityScore": 25,
+      "maturityLevel": "Level 1: Concept & Spec"
+    }
+  ]
+}
+

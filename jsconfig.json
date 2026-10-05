@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "ignoreDeprecations": "6.0",
+    "moduleSuffixes": [".jsx", ".js", ".astro", ".ts", ".tsx"]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", ".astro", "**/*.astro"]
+}

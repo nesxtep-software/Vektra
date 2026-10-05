@@ -1,0 +1,11 @@
+---
+import telemetry from '../data/portfolio-telemetry.json';
+import AppTableClient from './app-table/AppTableClient';
+
+const repos = telemetry.repositories;
+
+---
+
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+  <AppTableClient client:load repos={repos} />
+</div>

@@ -1,0 +1,79 @@
+---
+import telemetry from '../data/portfolio-telemetry.json';
+
+const repos = telemetry.repositories || [];
+const totalApps = repos.length;
+const productionApps = repos.filter(
+  (r) => r.maturityLevel === 'Level 5: Production'
+).length;
+const now = new Date();
+const highMomentumApps = repos.filter((r) => {
+  const pushedAt = new Date(r.pushedAt as string);
+  const daysSince = Math.floor((now.getTime() - pushedAt.getTime()) / (1000 * 60 * 60 * 24));
+  return daysSince <= 14;
+}).length;
+const avgMaturityScore = repos.length > 0
+  ? Math.round(
+      repos.reduce((sum, r) => sum + (r.maturityScore as number), 0) / repos.length
+    )
+  : 0;
+---
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-sm font-medium text-gray-500">Total Applications</p>
+        <p class="text-3xl font-bold text-gray-900 mt-2">{totalApps}</p>
+      </div>
+      <div class="p-3 bg-blue-50 rounded-lg">
+        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-sm font-medium text-gray-500">Production Assets</p>
+        <p class="text-3xl font-bold text-gray-900 mt-2">{productionApps}</p>
+      </div>
+      <div class="p-3 bg-green-50 rounded-lg">
+        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-sm font-medium text-gray-500">High Momentum Apps</p>
+        <p class="text-3xl font-bold text-gray-900 mt-2">{highMomentumApps}</p>
+        <p class="text-xs text-gray-400 mt-1">Commits in last 14 days</p>
+      </div>
+      <div class="p-3 bg-purple-50 rounded-lg">
+        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-sm font-medium text-gray-500">Avg Maturity Score</p>
+        <p class="text-3xl font-bold text-gray-900 mt-2">{avgMaturityScore}%</p>
+      </div>
+      <div class="p-3 bg-orange-50 rounded-lg">
+        <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>

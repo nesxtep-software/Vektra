@@ -1,0 +1,23 @@
+[tools]
+node = "22.23.1"
+pnpm = "12.6.0"
+
+[tasks.install]
+run = "pnpm install"
+description = "Install dependencies"
+
+[tasks.dev]
+run = "pnpm dev"
+description = "Start development server"
+
+[tasks.build]
+run = "pnpm build"
+description = "Build for production"
+
+[tasks.preview]
+run = "pnpm preview"
+description = "Preview production build"
+
+[tasks.ingest]
+run = "node --import tsx/esm scripts/index.ts"
+description = "Ingest GitHub telemetry data"

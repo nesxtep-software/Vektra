@@ -1,0 +1,20 @@
+---
+import telemetry from '../data/portfolio-telemetry.json';
+import TechStackBreakdownClient from './charts/TechStackBreakdownClient';
+
+const repos = telemetry.repositories;
+
+const languageCounts = repos.reduce((acc: any, repo: any) => {
+  const lang = repo.primaryLanguage || 'Unknown';
+  acc[lang] = (acc[lang] || 0) + 1;
+  return acc;
+}, {});
+
+const labels = Object.keys(languageCounts);
+const data = Object.values(languageCounts) as number[];
+
+---
+
+<div class="bg-white rounded-lg shadow-sm border border border-gray-200 p-6 mb-8">
+  <TechStackBreakdownClient client:load labels={labels} data={data} />
+</div>

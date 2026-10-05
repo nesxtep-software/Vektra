@@ -1,0 +1,21 @@
+---
+import telemetry from '../data/portfolio-telemetry.json';
+import MaturityChartClient from './charts/MaturityChartClient';
+
+const repos = telemetry.repositories;
+
+const maturityLevels = [
+  'Level 1: PoC',
+  'Level 2: MVP',
+  'Level 3: Production',
+];
+
+const levelCounts = maturityLevels.map(
+  (level) => repos.filter((r) => r.maturityLevel === level).length
+);
+
+---
+
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+  <MaturityChartClient client:load levelCounts={levelCounts} />
+</div>
