@@ -1,6 +1,6 @@
 {
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", ".astro"],
+  "exclude": ["node_modules", "dist", ".astro", "**/*.astro"],
   "compilerOptions": {
     "target": "ES2020",
     "useDefineForClassFields": true,

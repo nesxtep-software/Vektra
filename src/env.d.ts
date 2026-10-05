@@ -20,3 +20,8 @@ declare module '*.json' {
   let value: any;
   export default value;
 }
+
+declare module '*.astro' {
+  let value: any;
+  export default value;
+}
