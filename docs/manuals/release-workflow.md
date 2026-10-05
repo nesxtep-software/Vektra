@@ -30,17 +30,19 @@ flowchart TD
     subgraph ReleaseSteps["Release Steps"]
         B --> C[Checkout main]
         C --> D[Pull origin main]
-        D --> E[Create signed tag]
-        E --> F[Push tag]
-        F --> G[Create GitHub Release]
+        D --> E[Delete feature branch]
+        E --> F[Create signed tag]
+        F --> G[Push tag]
+        G --> H[Create GitHub Release]
     end
     
     style A fill:#e1f5ff
     style B fill:#fff4e6
     style ReleaseSteps fill:#e6f5ff
     style A stroke:#4ecdc4,stroke-width:2px
-    style E fill:#feca57
-    style G fill:#4ecdc4
+    style E fill:#ffe6e6
+    style F fill:#feca57
+    style H fill:#4ecdc4
 ```
 
 ## Proceso de Release
@@ -69,7 +71,16 @@ git checkout main
 git pull origin main
 ```
 
-### Paso 2: Crear Tag Firmado
+### Paso 2: Delete Feature Branch (Opcional pero Recomendado)
+
+```bash
+git branch -d feat/nombre-feature
+git push origin --delete feat/nombre-feature
+```
+
+**Regla:** Mantener el workspace limpio eliminando la rama de feature después del merge.
+
+### Paso 3: Crear Tag Firmado
 
 ```bash
 git tag -a v1.0.0 -m "Release v1.0.0"
@@ -83,13 +94,13 @@ git tag -l -n1
 git show v1.0.0
 ```
 
-### Paso 3: Push Tag
+### Paso 4: Push Tag
 
 ```bash
 git push origin v1.0.0
 ```
 
-### Paso 4: GitHub Release
+### Paso 5: GitHub Release
 
 1. **Ir a GitHub**
    - Repository → Releases → "Create a new release"
@@ -212,12 +223,13 @@ En GitHub → Settings → Branches:
 - [x] Require branches to be up to date before merging
 - [x] Do not allow bypassing the above settings
 
-## Checklist de Release (5 Pasos)
+## Checklist de Release (6 Pasos)
 
 **Prerrequisito:** Feature branch mergeado a main con CHANGELOG.md y version bump (ver [Development Workflow](./development-workflow.md))
 
 - [ ] **1.** CHECKOUT MAIN - `git checkout main` y `git pull origin main`
-- [ ] **2.** CREATE SIGNED TAG - `git tag -a v1.0.0 -m "Release v1.0.0"`
-- [ ] **3.** PUSH TAG - `git push origin v1.0.0`
-- [ ] **4.** CREATE GITHUB RELEASE - Ir a GitHub → Releases → Create new release
-- [ ] **5.** PUBLISH RELEASE - Seleccionar tag, copiar CHANGELOG.md, publicar
+- [ ] **2.** DELETE FEATURE BRANCH - `git branch -d feat/nombre-feature` y `git push origin --delete feat/nombre-feature`
+- [ ] **3.** CREATE SIGNED TAG - `git tag -s v1.0.0 -m "Release v1.0.0"`
+- [ ] **4.** PUSH TAG - `git push origin v1.0.0`
+- [ ] **5.** CREATE GITHUB RELEASE - Ir a GitHub → Releases → Create new release
+- [ ] **6.** PUBLISH RELEASE - Seleccionar tag, copiar CHANGELOG.md, publicar
