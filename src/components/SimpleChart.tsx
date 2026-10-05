@@ -18,12 +18,12 @@ const data = {
       label: '# of Votes',
       data: [12, 19, 3, 5, 2, 3],
       backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)',
+        'rgba(255, 99, 132, 0.5)',
+        'rgba(54, 162, 235, 0.5)',
+        'rgba(255, 206, 86, 0.5)',
+        'rgba(75, 192, 192, 0.5)',
+        'rgba(153, 102, 255, 0.5)',
+        'rgba(255, 159, 64, 0.5)',
       ],
       borderColor: [
         'rgba(255, 99, 132, 1)',
@@ -33,7 +33,7 @@ const data = {
         'rgba(153, 102, 255, 1)',
         'rgba(255, 159, 64, 1)',
       ],
-      borderWidth: 1,
+      borderWidth: 2,
     },
   ],
 };
@@ -44,24 +44,39 @@ const options = {
   plugins: {
     legend: {
       display: true,
+      position: 'top',
     },
     title: {
       display: true,
       text: 'Hardcoded Test Chart',
       font: {
-        size: 16,
+        size: 18,
         weight: 'bold',
       },
+      color: '#374151',
     },
   },
   scales: {
     y: {
       beginAtZero: true,
+      grid: {
+        color: 'rgba(0, 0, 0, 0.1)',
+      },
+    },
+    x: {
+      grid: {
+        display: false,
+      },
     },
   },
 };
 
 export default function SimpleChart() {
   console.log('SimpleChart: Rendering hardcoded chart');
-  return <Bar data={data} options={options} />;
+  return (
+    <div style={{ position: 'relative', height: '300px', width: '100%' }}>
+      <Bar data={data} options={options} />
+    </div>
+  );
 }
+
