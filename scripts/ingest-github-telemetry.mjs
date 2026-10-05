@@ -128,32 +128,48 @@ function calculateMaturityScore(repo) {
     score += 10;
   }
 
-  // Versioning (Weight: 20%)
-  // +20 if package.json exists with valid SemVer version (not 0.0.0)
+  // Versioning (Weight: 25%)
+  // +25 if package.json exists with valid SemVer version (not 0.0.0)
   if (repo.packageJson) {
     try {
       const packageData = JSON.parse(repo.packageJson.text);
       const version = packageData.version || '0.0.0';
       if (version !== '0.0.0') {
-        score += 20;
+        score += 25;
       }
     } catch (e) {
       // Invalid JSON, skip
     }
   }
 
+  // Release Evidence (Weight: 30%)
+  // +20 if has GitHub releases (non-draft)
+  const releases = repo.releases?.nodes || [];
+  const hasRelease = releases.some(r => !r.isDraft);
+  if (hasRelease) {
+    score += 20;
+  }
+
+  // +10 if has version tags (SemVer pattern)
+  const tags = repo.refs?.nodes || [];
+  const hasVersionTag = tags.some(t => /^v?\d+\.\d+\.\d+/.test(t.name));
+  if (hasVersionTag) {
+    score += 10;
+  }
+
   // Containerization (Weight: 10%)
   // +10 if Dockerfile or docker-compose.yml exists
+  // Note: Not required for web apps, but good for microservices
   if (repo.dockerfile || repo.dockerCompose) {
     score += 10;
   }
 
-  // Issue Management (Weight: 15%)
-  // +0 to +15 based on issue completion ratio
+  // Issue Management (Weight: 10%)
+  // +0 to +10 based on issue completion ratio
   const totalIssues = repo.openIssues.totalCount + repo.closedIssues.totalCount;
   if (totalIssues > 0) {
     const completionRatio = repo.closedIssues.totalCount / totalIssues;
-    score += Math.round(completionRatio * 15);
+    score += Math.round(completionRatio * 10);
   }
 
   // Recent Activity (Weight: 15%)
@@ -172,32 +188,14 @@ function calculateMaturityScore(repo) {
     score += 5;
   }
 
-  // Production Indicators (Weight: 30%)
-  // Check for production topic
+  // Production topic bonus (optional manual signal)
+  // Check for production topic - gives extra boost but not required
   const isProduction = repo.repositoryTopics.nodes.some(
     (t) => t.topic.name === 'production'
   );
   if (isProduction) {
-    score += 15; // Production topic gives significant boost
+    score += 5; // Reduced from 15 - just a bonus now
   }
-
-  // Check for GitHub releases (non-draft)
-  const releases = repo.releases?.nodes || [];
-  const hasRelease = releases.some(r => !r.isDraft);
-  if (hasRelease) {
-    score += 10;
-  }
-
-  // Check for version tags (SemVer pattern)
-  const tags = repo.refs?.nodes || [];
-  const hasVersionTag = tags.some(t => /^v?\d+\.\d+\.\d+/.test(t.name));
-  if (hasVersionTag) {
-    score += 5;
-  }
-
-  // Bonus: Signed tags (Level 5 indicator)
-  // Note: GitHub GraphQL API doesn't expose tag signing status, so we can't check this
-  // If you need this, you'd need to use the git CLI or check locally
 
   return Math.min(score, 100);
 }
