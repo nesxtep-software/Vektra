@@ -27,21 +27,80 @@ Protocolo estandarizado para crear releases en Vektra, asegurando versionamiento
 - [ ] No commits pendientes en main
 - [ ] Feature branches merged a main
 
-## Proceso de Release
+## Flujo Completo de Release
 
-### Paso 1: Preparación
-
-```bash
-# Asegurar estar en main
-git checkout main
-git pull origin main
-
-# Verificar estado
-git status
-git log --oneline -5
+```mermaid
+flowchart TD
+    subgraph PreRelease["Pre-Release"]
+        A[Feature Branch Ready] --> B{PR Approved?}
+        B -->|No| C[Wait for Approval]
+        C --> B
+        B -->|Sí| D[Mark PR as Ready]
+    end
+    
+    subgraph Merge["Merge to Main"]
+        D --> E[Squash Merge]
+        E --> F[Delete Feature Branch]
+    end
+    
+    subgraph ReleaseSteps["Release Steps"]
+        F --> G[Checkout main]
+        G --> H[Pull origin main]
+        H --> I[Update CHANGELOG.md]
+        I --> J[Bump package.json version]
+        J --> K[Commit version bump]
+        K --> L[Create signed tag]
+        L --> M[Push main and tag]
+        M --> N[Create GitHub Release]
+    end
+    
+    style PreRelease fill:#e1f5ff
+    style Merge fill:#fff4e6
+    style ReleaseSteps fill:#e6f5ff
+    style D fill:#95e1d3
+    style E fill:#ff6b6b
+    style L fill:#feca57
+    style N fill:#4ecdc4
 ```
 
-### Paso 2: Bump de Versión
+## Proceso de Release
+
+### Paso 1: Validar PR Approval
+
+```bash
+# Verificar estado del PR en GitHub
+gh pr view <PR_NUMBER>
+```
+
+**Requisitos:**
+- PR debe estar approved
+- CI/CD checks deben pasar (si están habilitados)
+- No conflicts con main
+
+### Paso 2: Marcar PR como Ready
+
+En GitHub:
+- Ir al PR
+- Click "Mark as ready for review" (si está en draft)
+- Asegurar que esté en estado "Ready to merge"
+
+### Paso 3: Squash Merge
+
+En GitHub:
+- Click "Merge pull request"
+- Select "Squash and merge"
+- Confirm merge
+
+**Resultado:** Feature branch merged a main con un solo commit
+
+### Paso 4: Checkout Main y Pull
+
+```bash
+git checkout main
+git pull origin main
+```
+
+### Paso 6: Bump de Versión
 
 **Actualizar package.json:**
 
@@ -67,7 +126,7 @@ git log --oneline -5
 | MVP | 1.0.0 - 1.99.99 (1.x.x) | Minimum Viable Product, estable pero evolucionando |
 | Production | ≥ 2.0.0 (2.x.x+) | Production-ready, maduro, API estable |
 
-### Paso 3: CHANGELOG.md
+### Paso 7: CHANGELOG.md
 
 **Formato:**
 
@@ -96,7 +155,7 @@ git log --oneline -5
 - Incluir fecha de release
 - Referenciar issues o PRs si aplica
 
-### Paso 4: Commit de Version Bump
+### Paso 8: Commit de Version Bump
 
 ```bash
 git add package.json CHANGELOG.md
@@ -105,7 +164,7 @@ git commit -m "chore: bump version to 1.0.0"
 
 **Regla:** Este commit debe ser único y limpio, solo para version bump.
 
-### Paso 5: Crear Tag Firmado
+### Paso 9: Crear Tag Firmado
 
 ```bash
 git tag -a v1.0.0 -m "Release v1.0.0"
@@ -119,14 +178,14 @@ git tag -l -n1
 git show v1.0.0
 ```
 
-### Paso 6: Push Changes
+### Paso 10: Push Changes
 
 ```bash
 git push origin main
 git push origin v1.0.0
 ```
 
-### Paso 7: GitHub Release
+### Paso 11: GitHub Release
 
 1. **Ir a GitHub**
    - Repository → Releases → "Create a new release"
@@ -139,7 +198,7 @@ git push origin v1.0.0
 3. **Publicar**
    - Click "Publish release"
 
-### Paso 8: Post-Release
+### Paso 12: Post-Release
 
 ```bash
 # Verificar release
@@ -216,15 +275,14 @@ En GitHub → Settings → Branches:
 - [x] Require branches to be up to date before merging
 - [x] Do not allow bypassing the above settings
 
-## Checklist de Release
+## Checklist de Release (9 Pasos)
 
-- [ ] Feature branches merged a main
-- [ ] No conflicts en main
-- [ ] Version bumped en package.json
-- [ ] CHANGELOG.md actualizado
-- [ ] Commit de version bump creado
-- [ ] Tag firmado creado (GPG)
-- ] Tag pushed a origin
-- [ ] GitHub release creado
-- [ ] Release notes pobladas desde CHANGELOG.md
-- [ ] Release publicado
+- [ ] **1.** CREATE CHANGELOG.md - Documentar todos los cambios
+- [ ] **2.** UPDATE SemVer - Bump versión en package.json
+- [ ] **3.** VALIDATE APPROVAL - Verificar que PR está approved
+- [ ] **4.** MARK READY - Cambiar estado de PR a ready
+- [ ] **5.** SQUASH MERGE - Merge squash a main desde GitHub
+- [ ] **6.** CHECKOUT MAIN - `git checkout main` y `git pull origin main`
+- [ ] **7.** GET CHANGES - Verificar cambios en main (`git log`)
+- [ ] **8.** CREATE SIGNED TAG - `git tag -a v1.0.0 -m "Release v1.0.0"`
+- [ ] **9.** PUBLISH RELEASE - Crear y publicar GitHub release desde el tag

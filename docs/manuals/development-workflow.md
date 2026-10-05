@@ -17,6 +17,76 @@ status: "published"
 
 **No commits directos a la rama `main`.** Todos los cambios deben pasar por ramas de feature y ser mergeados vía Pull Request.
 
+## Flujo Completo de Desarrollo y Release
+
+```mermaid
+flowchart TD
+    subgraph Feature["Feature Development"]
+        A[Crear rama feat/*] --> B[Desarrollar y Commits]
+        B --> C[Push a origin]
+        C --> D[Crear Pull Request]
+        D --> E{PR Approved?}
+        E -->|No| F[Address Feedback]
+        F --> D
+        E -->|Sí| G[Mark PR as Ready]
+    end
+    
+    subgraph Merge["Merge a Main"]
+        G --> H[Squash Merge]
+        H --> I[Delete Feature Branch]
+    end
+    
+    subgraph Release["Release Process"]
+        I --> J[Checkout main]
+        J --> K[Pull origin main]
+        K --> L[Update CHANGELOG.md]
+        L --> M[Bump package.json version]
+        M --> N[Commit version bump]
+        N --> O[Create signed tag]
+        O --> P[Push main and tag]
+        P --> Q[Create GitHub Release]
+    end
+    
+    style Feature fill:#e1f5ff
+    style Merge fill:#fff4e6
+    style Release fill:#e6f5ff
+    style A fill:#4ecdc4
+    style G fill:#95e1d3
+    style H fill:#ff6b6b
+    style O fill:#feca57
+    style Q fill:#4ecdc4
+```
+
+### Paso a Paso
+
+**1. Feature Development**
+```bash
+git checkout main
+git pull origin main
+git checkout -b feat/nombre-feature
+# Desarrollar y hacer commits
+git push origin feat/nombre-feature
+```
+
+**2. Pull Request**
+- Crear PR en GitHub
+- Request review
+- Wait for approval
+- Mark PR as ready
+
+**3. Merge**
+- Squash merge (recomendado)
+- Delete feature branch
+
+**4. Release**
+- Checkout main y pull
+- Update CHANGELOG.md
+- Bump package.json version
+- Commit version bump
+- Create signed tag
+- Push main and tag
+- Create GitHub Release
+
 ## Estrategia de Branching
 
 ```mermaid
