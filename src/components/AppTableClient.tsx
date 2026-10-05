@@ -108,7 +108,7 @@ export default function AppTableClient({ repos }: AppTableClientProps) {
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full divide-y divide-gray-200">
+        <table className="w-full divide-y divide-gray-200" style={{ tableLayout: 'fixed' }}>
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -120,7 +120,7 @@ export default function AppTableClient({ repos }: AppTableClientProps) {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Version
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-32">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px', maxWidth: '150px' }}>
                 Milestone Progress
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -152,9 +152,9 @@ export default function AppTableClient({ repos }: AppTableClientProps) {
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {repo.version || 'N/A'}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap w-32">
+                <td className="px-6 py-4 whitespace-nowrap" style={{ width: '150px', maxWidth: '150px' }}>
                   {repo.milestone ? (
-                    <div className="w-full">
+                    <div className="w-full overflow-hidden">
                       <div className="flex items-center justify-between mb-1">
                         <span className="text-xs text-gray-500 truncate">{repo.milestone.title}</span>
                         <span className="text-xs text-gray-500">{getMilestoneProgress(repo.milestone)}%</span>
