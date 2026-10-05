@@ -8,12 +8,29 @@ interface AppTableClientProps {
 export default function AppTableClient({ repos }: AppTableClientProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('All');
-  const [sortBy, setSortBy] = useState('lastUpdated');
+  const [sortColumn, setSortColumn] = useState('pushedAt');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
   const [selectedRepo, setSelectedRepo] = useState<any>(null);
 
   const handleRowClick = (repo: any) => setSelectedRepo(repo);
   const handleModalClose = () => setSelectedRepo(null);
   const handleStopPropagation = (e: MouseEvent) => e.stopPropagation();
+
+  const handleSort = (column: string) => {
+    if (sortColumn === column) {
+      // Toggle direction if clicking same column
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      // New column, default to desc
+      setSortColumn(column);
+      setSortDirection('desc');
+    }
+  };
+
+  const getSortIcon = (column: string) => {
+    if (sortColumn !== column) return null;
+    return sortDirection === 'asc' ? '↑' : '↓';
+  };
 
   const filteredAndSortedRepos = useMemo(() => {
     let filtered = repos;
@@ -39,19 +56,23 @@ export default function AppTableClient({ repos }: AppTableClientProps) {
     }
 
     // Sort
+    const comparators: Record<string, (a: any, b: any) => number> = {
+      pushedAt: (a, b) => new Date(a.pushedAt).getTime() - new Date(b.pushedAt).getTime(),
+      maturityScore: (a, b) => a.maturityScore - b.maturityScore,
+      openIssues: (a, b) => a.openIssues - b.openIssues,
+      name: (a, b) => a.name.localeCompare(b.name),
+      maturityLevel: (a, b) => a.maturityLevel.localeCompare(b.maturityLevel),
+      version: (a, b) => (a.version || '').localeCompare(b.version || ''),
+    };
+
+    const comparator = comparators[sortColumn] || (() => 0);
     const sorted = [...filtered].sort((a, b) => {
-      if (sortBy === 'lastUpdated') {
-        return new Date(b.pushedAt) - new Date(a.pushedAt);
-      } else if (sortBy === 'maturityScore') {
-        return b.maturityScore - a.maturityScore;
-      } else if (sortBy === 'openIssues') {
-        return b.openIssues - a.openIssues;
-      }
-      return 0;
+      const comparison = comparator(a, b);
+      return sortDirection === 'asc' ? comparison : -comparison;
     });
 
     return sorted;
-  }, [searchTerm, categoryFilter, sortBy]);
+  }, [searchTerm, categoryFilter, sortColumn, sortDirection]);
 
   const getMaturityLevelColor = (level) => {
     if (level === 'Level 3: Production') return 'bg-blue-100 text-blue-800';
@@ -96,35 +117,38 @@ export default function AppTableClient({ repos }: AppTableClientProps) {
           <option value="MVP">MVP</option>
           <option value="PoC">PoC</option>
         </select>
-        <select
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value)}
-          className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-        >
-          <option value="lastUpdated">Sort by Last Updated</option>
-          <option value="maturityScore">Sort by Maturity Score</option>
-          <option value="openIssues">Sort by Open Issues</option>
-        </select>
       </div>
 
       <div className="overflow-x-auto">
         <table className="w-full divide-y divide-gray-200" style={{ tableLayout: 'fixed' }}>
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                App Name
+              <th
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                onClick={() => handleSort('name')}
+              >
+                App Name {getSortIcon('name')}
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Status
+              <th
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                onClick={() => handleSort('maturityLevel')}
+              >
+                Status {getSortIcon('maturityLevel')}
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Version
+              <th
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                onClick={() => handleSort('version')}
+              >
+                Version {getSortIcon('version')}
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '150px', maxWidth: '150px' }}>
                 Milestone Progress
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Last Commit
+              <th
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                onClick={() => handleSort('pushedAt')}
+              >
+                Last Commit {getSortIcon('pushedAt')}
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Health Indicators
