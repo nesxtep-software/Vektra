@@ -1,5 +1,3 @@
-// Maturity scoring logic
-
 import type { Repository } from './types';
 
 export function calculateMaturityScore(repo: Repository): number {
@@ -22,7 +20,7 @@ export function calculateMaturityScore(repo: Repository): number {
 
   // CI/CD & Automation (Weight: 15%)
   // +15 if has GitHub Actions workflows (CI/CD)
-  const hasWorkflows = repo.workflows?.entries?.length > 0;
+  const hasWorkflows = repo.workflows?.entries && repo.workflows.entries.length > 0;
   if (hasWorkflows) {
     score += 15;
   }
@@ -103,8 +101,9 @@ export function calculateMaturityScore(repo: Repository): number {
 
   // Penalty: Milestone contains version that doesn't match latest release
   // Only penalize if milestone has a version number that's significantly different from current release
-  if (repo.milestone && repo.latestRelease) {
-    const milestoneTitle = repo.milestone.title.toLowerCase();
+  const milestone = repo.milestones?.nodes[0];
+  if (milestone && repo.latestRelease) {
+    const milestoneTitle = milestone.title.toLowerCase();
     const releaseTag = repo.latestRelease.tagName.toLowerCase().replace(/^v/, '');
 
     // Extract version from milestone title (e.g., "v1.0.0" or "1.0.0")
