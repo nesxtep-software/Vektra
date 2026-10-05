@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Scatter } from 'react-chartjs-2';
+// @ts-ignore - Chart.js named exports
 import {
   Chart as ChartJS,
   LinearScale,

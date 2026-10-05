@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
+// @ts-ignore - Chart.js named exports
 import {
   Chart as ChartJS,
   ArcElement,
