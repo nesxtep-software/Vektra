@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Scatter } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -83,9 +83,16 @@ const options = {
 };
 
 export default function ActivityMatrixClient({ repos, now }: ActivityMatrixClientProps) {
+  const [isClient, setIsClient] = useState(false);
+
   useEffect(() => {
+    setIsClient(true);
     ChartJS.register(LinearScale, PointElement, Tooltip, Legend);
   }, []);
+
+  if (!isClient) {
+    return <div className="flex items-center justify-center h-full text-gray-400">Loading chart...</div>;
+  }
 
   return <Scatter data={data(repos, now)} options={options} />;
 }

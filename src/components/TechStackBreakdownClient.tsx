@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -54,9 +54,16 @@ const options = {
 };
 
 export default function TechStackBreakdownClient({ labels, data }: TechStackBreakdownClientProps) {
+  const [isClient, setIsClient] = useState(false);
+
   useEffect(() => {
+    setIsClient(true);
     ChartJS.register(ArcElement, Tooltip, Legend);
   }, []);
+
+  if (!isClient) {
+    return <div className="flex items-center justify-center h-full text-gray-400">Loading chart...</div>;
+  }
 
   return <Doughnut data={chartData(labels, data)} options={options} />;
 }
