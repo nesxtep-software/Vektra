@@ -15,7 +15,6 @@ dist-ssr
 
 # Package manager files
 pnpm-lock.yaml
-pnpm-workspace.yaml
 
 # Generated data
 src/data/portfolio-telemetry.json
