@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
-// @ts-ignore - Chart.js named exports
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,6 +9,8 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 interface MaturityChartClientProps {
   levelCounts: number[];
@@ -67,26 +68,6 @@ const options = {
 };
 
 export default function MaturityChartClient({ levelCounts }: MaturityChartClientProps) {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    try {
-      ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
-      setIsLoaded(true);
-    } catch (err) {
-      console.error('Chart.js registration error:', err);
-      setError('Failed to load chart');
-    }
-  }, []);
-
-  if (error) {
-    return <div className="flex items-center justify-center h-full text-red-500">Error loading chart</div>;
-  }
-
-  if (!isLoaded) {
-    return <div className="flex items-center justify-center h-full text-gray-400">Loading chart...</div>;
-  }
-
+  console.log('MaturityChartClient: Rendering with data:', levelCounts);
   return <Bar data={data(levelCounts)} options={options} />;
 }
