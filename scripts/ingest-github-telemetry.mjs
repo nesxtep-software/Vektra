@@ -220,6 +220,7 @@ async function main() {
   const outputPath = resolve(process.cwd(), 'src/data/portfolio-telemetry.json');
   writeFileSync(outputPath, JSON.stringify(telemetry, null, 2));
   console.log(`Telemetry written to ${outputPath}`);
+  console.log(`Note: This file is gitignored - only used for local development`);
 }
 
 main().catch((error) => {

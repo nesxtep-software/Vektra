@@ -1,87 +1,89 @@
-name: Refresh Portfolio Telemetry
-
-on:
-  schedule:
-    - cron: '0 0 * * *'
-  workflow_dispatch:
-
-jobs:
-  refresh-telemetry:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20.x'
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 8
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Setup gh-cli
-        run: |
-          wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
-          echo "deb [signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list
-          sudo apt update
-          sudo apt install gh
-
-      - name: Authenticate gh-cli
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh auth login --with-token <<< $GH_TOKEN
-
-      - name: Ingest GitHub telemetry
-        env:
-          GITHUB_ORG: nesxtep-software
-        run: pnpm ingest
-
-      - name: Commit changes
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email 'github-actions[bot]@users.noreply.github.com'
-          git add src/data/portfolio-telemetry.json
-          git diff --quiet && git diff --staged --quiet || git commit -m "chore: refresh portfolio telemetry [skip ci]"
-
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main
-
-  # Deploy job disabled - app not published to GitHub Pages yet
-  # Uncomment when GitHub Pages is configured
-  # deploy:
-  #   needs: refresh-telemetry
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v4
-  #
-  #     - name: Setup Node.js
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         node-version: '20.x'
-  #
-  #     - name: Setup pnpm
-  #       uses: pnpm/action-setup@v4
-  #       with:
-  #         version: 8
-  #
-  #     - name: Install dependencies
-  #       run: pnpm install
-  #
-  #     - name: Build Astro site
-  #       run: pnpm build
-  #
-  #     - name: Deploy to GitHub Pages
-  #       uses: peaceiris/actions-gh-pages@v3
-  #       with:
-  #         github_token: ${{ secrets.GITHUB_TOKEN }}
-  #         publish_dir: ./dist
+# This workflow is disabled for local PoC development
+# For local PoC, run 'mise run ingest' manually to refresh data
+# Uncomment entire workflow when ready for production deployment
+#
+# name: Refresh Portfolio Telemetry
+#
+# on:
+#   schedule:
+#     - cron: '0 0 * * *'
+#   workflow_dispatch
+#
+# jobs:
+#   refresh-telemetry:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+#
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: '20.x'
+#
+#       - name: Setup pnpm
+#         uses: pnpm/action-setup@v4
+#         with:
+#           version: 8
+#
+#       - name: Install dependencies
+#         run: pnpm install
+#
+#       - name: Setup gh-cli
+#         run: |
+#           wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+#           echo "deb [signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/githubcli.list
+#           sudo apt update
+#           sudo apt install gh
+#
+#       - name: Authenticate gh-cli
+#         env:
+#           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#         run: gh auth login --with-token <<< $GH_TOKEN
+#
+#       - name: Ingest GitHub telemetry
+#         env:
+#           GITHUB_ORG: nesxtep-software
+#         run: pnpm ingest
+#
+#       - name: Commit changes
+#         run: |
+#           git config user.name 'github-actions[bot]'
+#           git config user.email 'github-actions[bot]@users.noreply.github.com'
+#           git add src/data/portfolio-telemetry.json
+#           git diff --quiet && git diff --staged --quiet || git commit -m "chore: refresh portfolio telemetry [skip ci]"
+#
+#       - name: Push changes
+#         uses: ad-m/github-push-action@master
+#         with:
+#           github_token: ${{ secrets.GITHUB_TOKEN }}
+#           branch: main
+#
+#   deploy:
+#     needs: refresh-telemetry
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+#
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: '20.x'
+#
+#       - name: Setup pnpm
+#         uses: pnpm/action-setup@v4
+#         with:
+#           version: 8
+#
+#       - name: Install dependencies
+#         run: pnpm install
+#
+#       - name: Build Astro site
+#         run: pnpm build
+#
+#       - name: Deploy to GitHub Pages
+#         uses: peaceiris/actions-gh-pages@v3
+#         with:
+#           github_token: ${{ secrets.GITHUB_TOKEN }}
+#           publish_dir: ./dist

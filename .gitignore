@@ -17,6 +17,9 @@ dist-ssr
 pnpm-lock.yaml
 pnpm-workspace.yaml
 
+# Generated data
+src/data/portfolio-telemetry.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
