@@ -1,15 +1,13 @@
 ---
 import telemetry from '../data/portfolio-telemetry.json';
-import MaturityChartClient from './MaturityChartClient.tsx';
+import MaturityChartClient from './MaturityChartClient';
 
 const repos = telemetry.repositories;
 
 const maturityLevels = [
-  'Level 1: Concept & Spec',
-  'Level 2: Architecture',
-  'Level 3: Core MVP',
-  'Level 4: Staging / Beta',
-  'Level 5: Production',
+  'Level 1: PoC',
+  'Level 2: MVP',
+  'Level 3: Production',
 ];
 
 const levelCounts = maturityLevels.map(

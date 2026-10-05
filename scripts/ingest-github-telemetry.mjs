@@ -53,6 +53,13 @@ query FetchOrgPortfolioMetrics($org: String!, $cursor: String) {
         readme: object(expression: "HEAD:README.md") {
           ... on Blob { text }
         }
+        workflows: object(expression: "HEAD:.github/workflows") {
+          ... on Tree {
+            entries {
+              name
+            }
+          }
+        }
         openIssues: issues(states: OPEN) { totalCount }
         closedIssues: issues(states: CLOSED) { totalCount }
         milestones(states: OPEN, first: 1) {
@@ -121,6 +128,7 @@ async function fetchAllRepositories() {
 
 function calculateMaturityScore(repo) {
   let score = 0;
+  let penalty = 0;
 
   // Documentation (Weight: 10%)
   // +10 if README.md exists
@@ -128,33 +136,57 @@ function calculateMaturityScore(repo) {
     score += 10;
   }
 
-  // Versioning (Weight: 25%)
-  // +25 if package.json exists with valid SemVer version (not 0.0.0)
+  // CI/CD Configuration (Weight: 15%)
+  // +15 if has GitHub Actions workflows (CI/CD)
+  const hasWorkflows = repo.workflows?.entries?.length > 0;
+  if (hasWorkflows) {
+    score += 15;
+  }
+
+  // Versioning & Release Evidence (Weight: 50%)
+  // Parse version from package.json or latest release
+  let version = null;
   if (repo.packageJson) {
     try {
       const packageData = JSON.parse(repo.packageJson.text);
-      const version = packageData.version || '0.0.0';
-      if (version !== '0.0.0') {
-        score += 25;
-      }
+      version = packageData.version || null;
     } catch (e) {
       // Invalid JSON, skip
     }
   }
 
-  // Release Evidence (Weight: 35%)
-  // +25 if has GitHub releases (non-draft) - Strongest production signal
-  const releases = repo.releases?.nodes || [];
-  const hasRelease = releases.some(r => !r.isDraft);
-  if (hasRelease) {
-    score += 25;
+  // Fallback to latest release if no package.json version
+  if (!version && repo.latestRelease?.tagName) {
+    version = repo.latestRelease.tagName.replace(/^v/, '');
   }
 
-  // +10 if has version tags (SemVer pattern)
-  const tags = repo.refs?.nodes || [];
-  const hasVersionTag = tags.some(t => /^v?\d+\.\d+\.\d+/.test(t.name));
-  if (hasVersionTag) {
-    score += 10;
+  if (version) {
+    const [major, minor, patch] = version.split('.').map(Number);
+
+    // Version-based scoring
+    if (major < 1) {
+      // PoC: 0.x.x versions
+      score += 10;
+    } else if (major === 1) {
+      // MVP: 1.x.x versions
+      score += 30;
+    } else {
+      // Production: 2.x.x and above
+      score += 40;
+    }
+
+    // Additional points for release evidence
+    const releases = repo.releases?.nodes || [];
+    const hasRelease = releases.some(r => !r.isDraft);
+    if (hasRelease) {
+      score += 10;
+    }
+
+    const tags = repo.refs?.nodes || [];
+    const hasVersionTag = tags.some(t => /^v?\d+\.\d+\.\d+/.test(t.name));
+    if (hasVersionTag) {
+      score += 10;
+    }
   }
 
   // Issue Management (Weight: 10%)
@@ -165,31 +197,72 @@ function calculateMaturityScore(repo) {
     score += Math.round(completionRatio * 10);
   }
 
-  // Recent Activity (Weight: 20%)
-  // +20 if commits within last 30 days, +15 if within 60 days, +10 if within 180 days, +5 if within 1 year
+  // Recent Activity (Weight: 15%)
+  // +15 if commits within last 30 days, +10 if within 60 days, +5 if within 180 days
   const pushedAt = new Date(repo.pushedAt);
   const now = new Date();
   const daysSinceLastCommit = Math.floor((now - pushedAt) / (1000 * 60 * 60 * 24));
 
   if (daysSinceLastCommit <= 30) {
-    score += 20;
-  } else if (daysSinceLastCommit <= 60) {
     score += 15;
-  } else if (daysSinceLastCommit <= 180) {
+  } else if (daysSinceLastCommit <= 60) {
     score += 10;
-  } else if (daysSinceLastCommit <= 365) {
+  } else if (daysSinceLastCommit <= 180) {
     score += 5;
   }
 
-  return Math.min(score, 100);
+  // Penalty: Milestone contains version that doesn't match latest release
+  // Only penalize if milestone has a version number that's significantly different from current release
+  if (repo.milestone && repo.latestRelease) {
+    const milestoneTitle = repo.milestone.title.toLowerCase();
+    const releaseTag = repo.latestRelease.tagName.toLowerCase().replace(/^v/, '');
+
+    // Extract version from milestone title (e.g., "v1.0.0" or "1.0.0")
+    const milestoneVersionMatch = milestoneTitle.match(/v?(\d+\.\d+\.\d+)/);
+
+    if (milestoneVersionMatch) {
+      const milestoneVersion = milestoneVersionMatch[1];
+
+      // Check if milestone version is different from release version
+      // If milestone is tracking a different version (e.g., next release), that's OK
+      // Only penalize if milestone is outdated (milestone version < release version)
+      const [mMajor, mMinor, mPatch] = milestoneVersion.split('.').map(Number);
+      const [rMajor, rMinor, rPatch] = releaseTag.split('.').map(Number);
+
+      // If milestone version is significantly older than release, penalize
+      if (mMajor < rMajor || (mMajor === rMajor && mMinor < rMinor)) {
+        penalty += 10;
+      }
+    }
+  }
+
+  return Math.max(0, Math.min(score - penalty, 100));
 }
 
-function getMaturityLevel(score) {
-  if (score <= 30) return 'Level 1: Concept & Spec';
-  if (score <= 50) return 'Level 2: Architecture';
-  if (score <= 70) return 'Level 3: Core MVP';
-  if (score <= 85) return 'Level 4: Staging / Beta';
-  return 'Level 5: Production';
+function getMaturityLevel(repo) {
+  // Check version-based level first
+  let version = repo.version;
+  if (!version && repo.latestRelease?.tagName) {
+    version = repo.latestRelease.tagName.replace(/^v/, '');
+  }
+
+  if (version) {
+    const [major] = version.split('.').map(Number);
+
+    if (major < 1) {
+      return 'Level 1: PoC';
+    } else if (major === 1) {
+      return 'Level 2: MVP';
+    } else {
+      return 'Level 3: Production';
+    }
+  }
+
+  // Fallback to score-based levels if no version
+  const score = repo.maturityScore;
+  if (score <= 30) return 'Level 1: PoC';
+  if (score <= 60) return 'Level 2: MVP';
+  return 'Level 3: Production';
 }
 
 function extractVersion(repo) {
@@ -211,7 +284,7 @@ async function main() {
 
   const processedRepos = repositories.map((repo) => {
     const maturityScore = calculateMaturityScore(repo);
-    const maturityLevel = getMaturityLevel(maturityScore);
+    const maturityLevel = getMaturityLevel(repo);
 
     return {
       name: repo.name,
@@ -238,6 +311,7 @@ async function main() {
       hasDockerfile: !!repo.dockerfile,
       hasDockerCompose: !!repo.dockerCompose,
       hasReadme: !!repo.readme,
+      hasWorkflows: repo.workflows?.entries?.length > 0,
       maturityScore,
       maturityLevel,
     };

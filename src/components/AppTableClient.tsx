@@ -25,19 +25,11 @@ export default function AppTableClient({ repos }: AppTableClientProps) {
     // Category filter
     if (categoryFilter !== 'All') {
       if (categoryFilter === 'Production') {
-        filtered = filtered.filter((r) => r.maturityLevel === 'Level 5: Production');
-      } else if (categoryFilter === 'Active MVP') {
-        filtered = filtered.filter(
-          (r) =>
-            r.maturityLevel === 'Level 3: Core MVP' ||
-            r.maturityLevel === 'Level 4: Staging / Beta'
-        );
-      } else if (categoryFilter === 'Concept') {
-        filtered = filtered.filter(
-          (r) =>
-            r.maturityLevel === 'Level 1: Concept & Spec' ||
-            r.maturityLevel === 'Level 2: Architecture'
-        );
+        filtered = filtered.filter((r) => r.maturityLevel === 'Level 3: Production');
+      } else if (categoryFilter === 'MVP') {
+        filtered = filtered.filter((r) => r.maturityLevel === 'Level 2: MVP');
+      } else if (categoryFilter === 'PoC') {
+        filtered = filtered.filter((r) => r.maturityLevel === 'Level 1: PoC');
       }
     }
 
@@ -57,11 +49,10 @@ export default function AppTableClient({ repos }: AppTableClientProps) {
   }, [searchTerm, categoryFilter, sortBy]);
 
   const getMaturityLevelColor = (level) => {
-    if (level === 'Level 5: Production') return 'bg-blue-100 text-blue-800';
-    if (level === 'Level 4: Staging / Beta') return 'bg-green-100 text-green-800';
-    if (level === 'Level 3: Core MVP') return 'bg-yellow-100 text-yellow-800';
-    if (level === 'Level 2: Architecture') return 'bg-orange-100 text-orange-800';
-    return 'bg-red-100 text-red-800';
+    if (level === 'Level 3: Production') return 'bg-blue-100 text-blue-800';
+    if (level === 'Level 2: MVP') return 'bg-green-100 text-green-800';
+    if (level === 'Level 1: PoC') return 'bg-yellow-100 text-yellow-800';
+    return 'bg-gray-100 text-gray-800';
   };
 
   const formatDate = (dateString) => {
@@ -97,8 +88,8 @@ export default function AppTableClient({ repos }: AppTableClientProps) {
         >
           <option value="All">All Categories</option>
           <option value="Production">Production</option>
-          <option value="Active MVP">Active MVP</option>
-          <option value="Concept">Concept</option>
+          <option value="MVP">MVP</option>
+          <option value="PoC">PoC</option>
         </select>
         <select
           value={sortBy}
