@@ -8,7 +8,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "ingest": "node scripts/ingest-github-telemetry.mjs"
+    "ingest": "node --import tsx/esm scripts/index.ts"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
@@ -24,8 +24,10 @@
     "tailwindcss": "^3.4.17"
   },
   "devDependencies": {
+    "@types/node": "^22.10.2",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
+    "tsx": "^4.19.2",
     "typescript": "^5.7.3"
   }
 }

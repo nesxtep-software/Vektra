@@ -19,5 +19,5 @@ run = "pnpm preview"
 description = "Preview production build"
 
 [tasks.ingest]
-run = "pnpm ingest"
+run = "node --import tsx/esm scripts/index.ts"
 description = "Ingest GitHub telemetry data"
