@@ -4,9 +4,9 @@ import { graphql } from '@octokit/graphql';
 import { execSync } from 'child_process';
 import { writeFileSync } from 'fs';
 import { resolve } from 'path';
-import type { Repository, ProcessedRepository, Telemetry } from './types';
-import { QUERY } from './graphql';
-import { calculateMaturityScore, getMaturityLevel } from './scoring';
+import type { Repository, ProcessedRepository, Telemetry } from './types.js';
+import { QUERY } from './graphql.js';
+import { calculateMaturityScore, getMaturityLevel } from './scoring.js';
 
 const GITHUB_ORG = process.env.GITHUB_ORG || 'nesxtep-software';
 
@@ -73,13 +73,18 @@ async function main(): Promise<void> {
 
   const processedRepos: ProcessedRepository[] = repositories.map((repo) => {
     const maturityScore = calculateMaturityScore(repo);
-    const maturityLevel = getMaturityLevel(repo);
+    const version = extractVersion(repo);
+    const maturityLevel = getMaturityLevel({
+      version,
+      maturityScore,
+      latestRelease: repo.latestRelease,
+    });
 
     return {
       name: repo.name,
       description: repo.description || '',
       primaryLanguage: repo.primaryLanguage?.name || 'Unknown',
-      topics: repo.repositoryTopics.nodes.map((t) => t.topic.name),
+      topics: repo.repositoryTopics.nodes.map((t: any) => t.topic.name),
       pushedAt: repo.pushedAt,
       stargazerCount: repo.stargazerCount,
       openIssues: repo.openIssues.totalCount,
@@ -92,16 +97,16 @@ async function main(): Promise<void> {
             closedIssues: repo.milestones.nodes[0].closedIssues.totalCount,
           }
         : null,
-      latestRelease: repo.latestRelease,
+      latestRelease: repo.latestRelease || null,
       releases: repo.releases?.nodes || [],
       tags: repo.refs?.nodes || [],
       hasPackageJson: !!repo.packageJson,
-      version: extractVersion(repo),
+      version,
       hasReadme: !!repo.readme,
       hasLicense: !!repo.license,
       hasContributing: !!repo.contributing,
       hasChangelog: !!repo.changelog,
-      hasWorkflows: repo.workflows?.entries?.length > 0,
+      hasWorkflows: !!(repo.workflows?.entries && repo.workflows.entries.length > 0),
       defaultBranch: 'main',
       maturityScore,
       maturityLevel,

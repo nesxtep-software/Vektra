@@ -1,4 +1,4 @@
-import type { Repository } from './types';
+import type { Repository } from './types.js';
 
 export function calculateMaturityScore(repo: Repository): number {
   let score = 0;
