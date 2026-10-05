@@ -1,16 +1,16 @@
 /// <reference types="astro/client" />
 
 declare module '*.jsx' {
-  const value: any;
+  let value: any;
   export default value;
 }
 
 declare module '*.js' {
-  const value: any;
+  let value: any;
   export default value;
 }
 
 declare module '*.json' {
-  const value: any;
+  let value: any;
   export default value;
 }
