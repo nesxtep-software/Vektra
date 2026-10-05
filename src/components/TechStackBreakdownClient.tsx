@@ -5,20 +5,13 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import telemetry from '../data/portfolio-telemetry.json';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const repos = telemetry.repositories;
-
-const languageCounts = repos.reduce((acc, repo) => {
-  const lang = repo.primaryLanguage || 'Unknown';
-  acc[lang] = (acc[lang] || 0) + 1;
-  return acc;
-}, {});
-
-const labels = Object.keys(languageCounts);
-const data = Object.values(languageCounts);
+interface TechStackBreakdownClientProps {
+  labels: string[];
+  data: number[];
+}
 
 const colors = [
   'rgba(59, 130, 246, 0.7)',
@@ -31,7 +24,7 @@ const colors = [
   'rgba(107, 114, 128, 0.7)',
 ];
 
-const chartData = {
+const chartData = (labels: string[], data: number[]) => ({
   labels,
   datasets: [
     {
@@ -41,7 +34,7 @@ const chartData = {
       borderWidth: 1,
     },
   ],
-};
+});
 
 const options = {
   responsive: true,
@@ -61,6 +54,6 @@ const options = {
   },
 };
 
-export default function TechStackBreakdownClient() {
-  return <Doughnut data={chartData} options={options} />;
+export default function TechStackBreakdownClient({ labels, data }: TechStackBreakdownClientProps) {
+  return <Doughnut data={chartData(labels, data)} options={options} />;
 }

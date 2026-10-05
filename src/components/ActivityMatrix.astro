@@ -1,10 +1,14 @@
 ---
 import telemetry from '../data/portfolio-telemetry.json';
 import ActivityMatrixClient from './ActivityMatrixClient.tsx';
+
+const repos = telemetry.repositories;
+const now = new Date();
+
 ---
 
 <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
   <div class="h-80">
-    <ActivityMatrixClient client:load />
+    <ActivityMatrixClient client:load repos={repos} now={now.toISOString()} />
   </div>
 </div>

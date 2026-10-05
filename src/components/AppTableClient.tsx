@@ -1,9 +1,10 @@
 import { useState, useMemo } from 'react';
-import telemetry from '../data/portfolio-telemetry.json';
 
-const repos = telemetry.repositories;
+interface AppTableClientProps {
+  repos: any[];
+}
 
-export default function AppTableClient() {
+export default function AppTableClient({ repos }: AppTableClientProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [sortBy, setSortBy] = useState('lastUpdated');

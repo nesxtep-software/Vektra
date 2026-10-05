@@ -6,20 +6,22 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import telemetry from '../data/portfolio-telemetry.json';
 
 ChartJS.register(LinearScale, PointElement, Tooltip, Legend);
 
-const repos = telemetry.repositories;
-const now = new Date();
+interface ActivityMatrixClientProps {
+  repos: any[];
+  now: string;
+}
 
-const data = {
+const data = (repos: any[], now: string) => ({
   datasets: [
     {
       label: 'Applications',
       data: repos.map((repo) => {
         const pushedAt = new Date(repo.pushedAt);
-        const daysSinceCommit = Math.floor((now - pushedAt) / (1000 * 60 * 60 * 24));
+        const nowDate = new Date(now);
+        const daysSinceCommit = Math.floor((nowDate - pushedAt) / (1000 * 60 * 60 * 24));
         return {
           x: daysSinceCommit,
           y: repo.maturityScore,
@@ -32,7 +34,7 @@ const data = {
       borderWidth: 1,
     },
   ],
-};
+});
 
 const options = {
   responsive: true,
@@ -51,7 +53,7 @@ const options = {
     },
     tooltip: {
       callbacks: {
-        label: function (context) {
+        label: function (context: any) {
           const point = context.raw;
           return [
             `${point.name}`,
@@ -81,6 +83,6 @@ const options = {
   },
 };
 
-export default function ActivityMatrixClient() {
-  return <Scatter data={data} options={options} />;
+export default function ActivityMatrixClient({ repos, now }: ActivityMatrixClientProps) {
+  return <Scatter data={data(repos, now)} options={options} />;
 }

@@ -8,25 +8,14 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import telemetry from '../data/portfolio-telemetry.json';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const repos = telemetry.repositories;
+interface MaturityChartClientProps {
+  levelCounts: number[];
+}
 
-const maturityLevels = [
-  'Level 1: Concept & Spec',
-  'Level 2: Architecture',
-  'Level 3: Core MVP',
-  'Level 4: Staging / Beta',
-  'Level 5: Production',
-];
-
-const levelCounts = maturityLevels.map(
-  (level) => repos.filter((r) => r.maturityLevel === level).length
-);
-
-const data = {
+const data = (levelCounts: number[]) => ({
   labels: ['Concept', 'Architecture', 'Core MVP', 'Staging/Beta', 'Production'],
   datasets: [
     {
@@ -49,7 +38,7 @@ const data = {
       borderWidth: 1,
     },
   ],
-};
+});
 
 const options = {
   responsive: true,
@@ -77,6 +66,6 @@ const options = {
   },
 };
 
-export default function MaturityChartClient() {
-  return <Bar data={data} options={options} />;
+export default function MaturityChartClient({ levelCounts }: MaturityChartClientProps) {
+  return <Bar data={data(levelCounts)} options={options} />;
 }
